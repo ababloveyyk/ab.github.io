@@ -1,3 +1,15 @@
+---
+title: MySQL 数据库
+date: 2026-06-30
+tags:
+  - MySQL
+  - 数据库
+  - SQL
+  - 后端
+categories:
+  - 后端技术
+---
+
 # MySQL 数据库
 
 MySQL 是世界上最流行的开源关系型数据库之一。

@@ -1,5 +1,71 @@
+const fs = require('fs')
+const path = require('path')
+
+// 解析 Markdown 文件的 frontmatter
+function parseFrontmatter(content) {
+  const result = {}
+  const fmMatch = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!fmMatch) return result
+
+  const lines = fmMatch[1].split('\n')
+  let currentKey = null
+
+  lines.forEach(line => {
+    const kvMatch = line.match(/^(\w+):\s*(.*)$/)
+    if (kvMatch) {
+      currentKey = kvMatch[1]
+      if (kvMatch[2]) {
+        result[currentKey] = kvMatch[2].trim()
+      } else {
+        result[currentKey] = []
+      }
+    } else if (currentKey && line.match(/^\s+-\s+(.+)/)) {
+      const itemMatch = line.match(/^\s+-\s+(.+)/)
+      if (Array.isArray(result[currentKey])) {
+        result[currentKey].push(itemMatch[1].trim())
+      }
+    }
+  })
+
+  return result
+}
+
+// 自动扫描目录，按 categories 分组生成侧边栏
+function generateSidebar(dirName, basePath) {
+  const dir = path.resolve(__dirname, '..', dirName)
+  if (!fs.existsSync(dir)) return []
+
+  const files = fs.readdirSync(dir).filter(f =>
+    f.endsWith('.md') && f.toLowerCase() !== 'readme.md'
+  )
+
+  const categoryMap = {}
+
+  files.forEach(file => {
+    const filePath = path.join(dir, file)
+    const content = fs.readFileSync(filePath, 'utf-8')
+    const fm = parseFrontmatter(content)
+
+    const title = fm.title || file.replace('.md', '')
+    const categories = Array.isArray(fm.categories) && fm.categories.length > 0
+      ? fm.categories
+      : ['未分类']
+
+    categories.forEach(cat => {
+      if (!categoryMap[cat]) categoryMap[cat] = []
+      categoryMap[cat].push([`${basePath}${file}`, title])
+    })
+  })
+
+  return Object.keys(categoryMap).map(cat => ({
+    title: cat,
+    collapsable: true,
+    children: categoryMap[cat]
+  }))
+}
+
 module.exports = {
-  title: '安柏安柏',
+  title: '安柏',
   description: '苦厄难磨凌云志，不死终有出头日',
   base: '/ab.github.io/',
   head: [
@@ -12,36 +78,19 @@ module.exports = {
       { text: '首页', link: '/' },
       { text: '技术笔记', link: '/notes/' },
       { text: '项目实践', link: '/projects/' },
+      { text: '归档', link: '/archive/' },
       { text: '关于我', link: '/about/' },
       { text: 'Admin', link: '/admin/' },
       { text: 'GitHub', link: 'https://github.com', target: '_blank' }
     ],
     sidebar: {
-      '/notes/': [
+      '/notes/': generateSidebar('notes', '/notes/'),
+      '/projects/': generateSidebar('projects', '/projects/'),
+      '/archive/': [
         {
-          title: '前端技术',
-          collapsable: true,
+          title: '归档',
           children: [
-            ['/notes/vue.md', 'Vue.js 入门'],
-            ['/notes/react.md', 'React 基础'],
-            ['/notes/typescript.md', 'TypeScript 学习']
-          ]
-        },
-        {
-          title: '后端技术',
-          collapsable: true,
-          children: [
-            ['/notes/nodejs.md', 'Node.js 实战'],
-            ['/notes/mysql.md', 'MySQL 数据库']
-          ]
-        }
-      ],
-      '/projects/': [
-        {
-          title: '项目列表',
-          children: [
-            ['/projects/blog.md', '个人博客'],
-            ['/projects/todo.md', '待办事项应用']
+            ['/archive/', '文章归档']
           ]
         }
       ],

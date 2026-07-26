@@ -1,3 +1,15 @@
+---
+title: TypeScript 学习
+date: 2026-06-30
+tags:
+  - TypeScript
+  - 类型系统
+  - 静态类型
+  - JavaScript
+categories:
+  - 前端技术
+---
+
 # TypeScript 学习
 
 TypeScript 是 JavaScript 的超集，添加了可选的静态类型检查和基于类的面向对象编程。

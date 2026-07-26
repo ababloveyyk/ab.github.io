@@ -1,3 +1,15 @@
+---
+title: 个人博客项目
+date: 2026-06-30
+tags:
+  - VuePress
+  - 博客
+  - GitHub Pages
+  - 前端
+categories:
+  - 项目实践
+---
+
 # 个人博客项目
 
 这是一个基于 VuePress 搭建的个人技术博客。

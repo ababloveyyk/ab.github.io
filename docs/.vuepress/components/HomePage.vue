@@ -3,7 +3,11 @@
     <div class="welcome-section">
       <div class="welcome-card">
         <h1>欢迎回来</h1>
-        <p>苦厄难磨凌云志，不死终有出头日</p>
+        <p class="motto-text">
+          <span v-for="(char, index) in motto" :key="index" class="motto-char" :style="{ animationDelay: index * 0.1 + 's' }">
+            {{ char }}
+          </span>
+        </p>
       </div>
     </div>
 
@@ -140,36 +144,119 @@ export default {
   name: 'HomePage',
   data() {
     return {
+      motto: '苦厄难磨凌云志，不死终有出头日',
       stats: {
-        articles: 12,
-        categories: 5,
-        tags: 28,
-        views: 1542
+        articles: 0,
+        categories: 0,
+        tags: 0,
+        views: 0
       },
-      chartData: [8, 12, 6, 15, 10, 18],
-      months: ['1月', '2月', '3月', '4月', '5月', '6月'],
-      categoryData: [
-        { name: '前端', value: 5, color: '#6366f1' },
-        { name: '后端', value: 4, color: '#8b5cf6' },
-        { name: '数据库', value: 3, color: '#a78bfa' }
-      ],
+      chartData: [0, 0, 0, 0, 0, 0, 0],
+      months: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
+      categoryData: [],
       progress: {
-        articles: { current: 12, target: 24, percent: 50 },
-        notes: { current: 8, target: 12, percent: 67 },
-        projects: { current: 3, target: 6, percent: 50 }
+        articles: { current: 0, target: 50, percent: 0 },
+        notes: { current: 0, target: 30, percent: 0 },
+        projects: { current: 0, target: 10, percent: 0 }
+      },
+      categoryColors: {
+        '前端技术': '#6366f1',
+        '后端技术': '#8b5cf6',
+        'Web安全': '#a78bfa',
+        'PWN': '#c4b5fd',
+        '密码学': '#ddd6fe',
+        'AWD': '#818cf8',
+        '网络安全': '#6366f1',
+        '漏洞挖掘': '#4f46e5',
+        '项目实践': '#3b82f6'
       }
+    }
+  },
+  mounted() {
+    this.computeStats()
+  },
+  methods: {
+    computeStats() {
+      const pages = this.$site.pages || []
+      // 过滤出有 frontmatter 的文章页（排除首页、README 索引页等）
+      const articles = pages.filter(p => {
+        return p.path &&
+               p.frontmatter &&
+               p.frontmatter.title &&
+               p.frontmatter.date &&
+               !p.path.endsWith('/') &&
+               p.path.match(/\.(html)$/)
+      })
+
+      // 文章总数
+      this.stats.articles = articles.length
+
+      // 分类统计
+      const categoryMap = {}
+      const tagSet = new Set()
+      let notesCount = 0
+      let projectsCount = 0
+
+      articles.forEach(article => {
+        // 分类
+        const cats = article.frontmatter.categories || []
+        cats.forEach(cat => {
+          if (!categoryMap[cat]) categoryMap[cat] = 0
+          categoryMap[cat]++
+        })
+
+        // 标签
+        const tags = article.frontmatter.tags || []
+        tags.forEach(tag => tagSet.add(tag))
+
+        // 路径分类
+        if (article.path.includes('/notes/')) notesCount++
+        if (article.path.includes('/projects/')) projectsCount++
+      })
+
+      this.stats.categories = Object.keys(categoryMap).length
+      this.stats.tags = tagSet.size
+
+      // 分类分布数据
+      this.categoryData = Object.keys(categoryMap).map(name => ({
+        name,
+        value: categoryMap[name],
+        color: this.categoryColors[name] || '#9ca3af'
+      }))
+
+      // 年度目标进度
+      this.progress.articles.current = articles.length
+      this.progress.articles.percent = Math.min(100, Math.round(articles.length / 50 * 100))
+      this.progress.notes.current = notesCount
+      this.progress.notes.percent = Math.min(100, Math.round(notesCount / 30 * 100))
+      this.progress.projects.current = projectsCount
+      this.progress.projects.percent = Math.min(100, Math.round(projectsCount / 10 * 100))
+
+      // 文章趋势（按月统计，1-7月）
+      const monthlyCount = [0, 0, 0, 0, 0, 0, 0]
+      articles.forEach(article => {
+        const dateStr = article.frontmatter.date
+        if (dateStr) {
+          const date = new Date(dateStr)
+          const month = date.getMonth() // 0-11
+          if (month >= 0 && month <= 6) {
+            monthlyCount[month]++
+          }
+        }
+      })
+      this.chartData = monthlyCount
     }
   },
   computed: {
     chartPoints() {
       const points = []
       const data = this.chartData
-      const maxValue = Math.max(...data)
+      const maxValue = Math.max(...data, 1)
       const minValue = Math.min(...data)
       const range = maxValue - minValue || 1
-      
+
       for (let i = 0; i < data.length; i++) {
-        const x = 50 + (i * 60)
+        const x = 50 + (i * 50)
         const y = 170 - ((data[i] - minValue) / range * 120)
         points.push({ x, y })
       }
@@ -234,6 +321,40 @@ export default {
   font-size: 16px;
   color: #6b7280;
   margin: 0;
+}
+
+.motto-text {
+  font-size: 36px;
+  font-weight: 600;
+  color: #6366f1;
+  letter-spacing: 6px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  text-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.motto-char {
+  opacity: 0;
+  animation: mottoFadeIn 0.6s ease-out forwards;
+}
+
+@keyframes mottoFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 .dashboard-section,

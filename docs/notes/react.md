@@ -1,3 +1,15 @@
+---
+title: React 基础
+date: 2026-06-30
+tags:
+  - React
+  - 前端框架
+  - JSX
+  - 组件
+categories:
+  - 前端技术
+---
+
 # React 基础
 
 React 是由 Facebook 开发和维护的用于构建用户界面的 JavaScript 库。

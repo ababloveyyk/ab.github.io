@@ -1,3 +1,15 @@
+---
+title: Vue.js 入门
+date: 2026-06-30
+tags:
+  - Vue.js
+  - 前端框架
+  - 响应式
+  - 组件化
+categories:
+  - 前端技术
+---
+
 # Vue.js 入门
 
 Vue.js 是一套构建用户界面的渐进式框架。与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计。
@@ -30,7 +42,7 @@ new Vue({
 
 在 VuePress 中使用图片非常简单，只需将图片放在 `docs/.vuepress/public/images/` 目录下，然后在 Markdown 中引用：
 
-![Vue.js Logo](/images/vue-logo.svg)
+![Vue.js Logo](../.vuepress/public/images/vue-logo.svg)
 
 ### 图片语法
 
