@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>C++现代特性Ⅱ——移动语义与右值引用 | 安柏</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/ab.github.io/favicon.png">
+    <link rel="shortcut icon" href="/ab.github.io/favicon.png">
+    <meta name="description" content="苦厄难磨凌云志，不死终有出头日">
+    
+    <link rel="preload" href="/ab.github.io/assets/css/0.styles.dfda38fb.css" as="style"><link rel="preload" href="/ab.github.io/assets/js/app.28cebbe8.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/7.2e324f51.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/2.1c582c6d.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/1.8da3d8c4.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/91.e2a2a69a.js" as="script"><link rel="prefetch" href="/ab.github.io/assets/js/10.d31fcafb.js"><link rel="prefetch" href="/ab.github.io/assets/js/100.3007813a.js"><link rel="prefetch" href="/ab.github.io/assets/js/101.2bb3e45d.js"><link rel="prefetch" href="/ab.github.io/assets/js/102.89e333ee.js"><link rel="prefetch" href="/ab.github.io/assets/js/103.60b14994.js"><link rel="prefetch" href="/ab.github.io/assets/js/104.54585268.js"><link rel="prefetch" href="/ab.github.io/assets/js/105.85da55e1.js"><link rel="prefetch" href="/ab.github.io/assets/js/106.f9b24119.js"><link rel="prefetch" href="/ab.github.io/assets/js/107.e15240fc.js"><link rel="prefetch" href="/ab.github.io/assets/js/108.8333fa61.js"><link rel="prefetch" href="/ab.github.io/assets/js/109.1906502c.js"><link rel="prefetch" href="/ab.github.io/assets/js/11.f72fbb06.js"><link rel="prefetch" href="/ab.github.io/assets/js/110.8b805e84.js"><link rel="prefetch" href="/ab.github.io/assets/js/111.3108b4be.js"><link rel="prefetch" href="/ab.github.io/assets/js/112.c6c23224.js"><link rel="prefetch" href="/ab.github.io/assets/js/113.3da924ce.js"><link rel="prefetch" href="/ab.github.io/assets/js/114.bdeadb38.js"><link rel="prefetch" href="/ab.github.io/assets/js/115.fab1ecec.js"><link rel="prefetch" href="/ab.github.io/assets/js/116.948ca065.js"><link rel="prefetch" href="/ab.github.io/assets/js/117.be17be90.js"><link rel="prefetch" href="/ab.github.io/assets/js/118.cfbcd0f7.js"><link rel="prefetch" href="/ab.github.io/assets/js/119.11c06311.js"><link rel="prefetch" href="/ab.github.io/assets/js/120.2f0ae2db.js"><link rel="prefetch" href="/ab.github.io/assets/js/121.455f1a1a.js"><link rel="prefetch" href="/ab.github.io/assets/js/122.068d0e86.js"><link rel="prefetch" href="/ab.github.io/assets/js/123.2044ca5e.js"><link rel="prefetch" href="/ab.github.io/assets/js/124.94b1d70d.js"><link rel="prefetch" href="/ab.github.io/assets/js/125.3c1c33eb.js"><link rel="prefetch" href="/ab.github.io/assets/js/126.ebf5bb33.js"><link rel="prefetch" href="/ab.github.io/assets/js/127.cffd742f.js"><link rel="prefetch" href="/ab.github.io/assets/js/128.a24eb199.js"><link rel="prefetch" href="/ab.github.io/assets/js/129.00c9c2de.js"><link rel="prefetch" href="/ab.github.io/assets/js/130.e548ea2b.js"><link rel="prefetch" href="/ab.github.io/assets/js/131.bc2c94cc.js"><link rel="prefetch" href="/ab.github.io/assets/js/132.a005f2f7.js"><link rel="prefetch" href="/ab.github.io/assets/js/133.b9cc89f9.js"><link rel="prefetch" href="/ab.github.io/assets/js/134.ff725e93.js"><link rel="prefetch" href="/ab.github.io/assets/js/135.c734223d.js"><link rel="prefetch" href="/ab.github.io/assets/js/136.4267df97.js"><link rel="prefetch" href="/ab.github.io/assets/js/137.883b8585.js"><link rel="prefetch" href="/ab.github.io/assets/js/138.737fe8f5.js"><link rel="prefetch" href="/ab.github.io/assets/js/139.41a06e33.js"><link rel="prefetch" href="/ab.github.io/assets/js/14.1f8c5f39.js"><link rel="prefetch" href="/ab.github.io/assets/js/140.49e4abc1.js"><link rel="prefetch" href="/ab.github.io/assets/js/141.d192e096.js"><link rel="prefetch" href="/ab.github.io/assets/js/142.261cd236.js"><link rel="prefetch" href="/ab.github.io/assets/js/143.cccec2a0.js"><link rel="prefetch" href="/ab.github.io/assets/js/144.3c3811c7.js"><link rel="prefetch" href="/ab.github.io/assets/js/15.4cb5e448.js"><link rel="prefetch" href="/ab.github.io/assets/js/16.d82639ed.js"><link rel="prefetch" href="/ab.github.io/assets/js/17.eedd238c.js"><link rel="prefetch" href="/ab.github.io/assets/js/18.6a27c9f1.js"><link rel="prefetch" href="/ab.github.io/assets/js/19.8aaf6374.js"><link rel="prefetch" href="/ab.github.io/assets/js/20.11eaff49.js"><link rel="prefetch" href="/ab.github.io/assets/js/21.0002c3a0.js"><link rel="prefetch" href="/ab.github.io/assets/js/22.6ebdf13c.js"><link rel="prefetch" href="/ab.github.io/assets/js/23.06be7364.js"><link rel="prefetch" href="/ab.github.io/assets/js/24.dfe0a928.js"><link rel="prefetch" href="/ab.github.io/assets/js/25.06d6f3a4.js"><link rel="prefetch" href="/ab.github.io/assets/js/26.4d255383.js"><link rel="prefetch" href="/ab.github.io/assets/js/27.0bd1640e.js"><link rel="prefetch" href="/ab.github.io/assets/js/28.b59b3502.js"><link rel="prefetch" href="/ab.github.io/assets/js/29.ac9215a8.js"><link rel="prefetch" href="/ab.github.io/assets/js/3.f781e6d2.js"><link rel="prefetch" href="/ab.github.io/assets/js/30.57e9b692.js"><link rel="prefetch" href="/ab.github.io/assets/js/31.a478b0cc.js"><link rel="prefetch" href="/ab.github.io/assets/js/32.fe21e6f5.js"><link rel="prefetch" href="/ab.github.io/assets/js/33.9ee1ba56.js"><link rel="prefetch" href="/ab.github.io/assets/js/34.c6caad28.js"><link rel="prefetch" href="/ab.github.io/assets/js/35.374e6283.js"><link rel="prefetch" href="/ab.github.io/assets/js/36.002eefc4.js"><link rel="prefetch" href="/ab.github.io/assets/js/37.0a9869b6.js"><link rel="prefetch" href="/ab.github.io/assets/js/38.95aec12c.js"><link rel="prefetch" href="/ab.github.io/assets/js/39.620e5967.js"><link rel="prefetch" href="/ab.github.io/assets/js/4.bb1fcae8.js"><link rel="prefetch" href="/ab.github.io/assets/js/40.489b3044.js"><link rel="prefetch" href="/ab.github.io/assets/js/41.eed87d21.js"><link rel="prefetch" href="/ab.github.io/assets/js/42.06753a97.js"><link rel="prefetch" href="/ab.github.io/assets/js/43.08292e0e.js"><link rel="prefetch" href="/ab.github.io/assets/js/44.2d7eab8d.js"><link rel="prefetch" href="/ab.github.io/assets/js/45.59ba18af.js"><link rel="prefetch" href="/ab.github.io/assets/js/46.6ff18db7.js"><link rel="prefetch" href="/ab.github.io/assets/js/47.937c2ea0.js"><link rel="prefetch" href="/ab.github.io/assets/js/48.fa7e7f61.js"><link rel="prefetch" href="/ab.github.io/assets/js/49.96bf1057.js"><link rel="prefetch" href="/ab.github.io/assets/js/5.8ebca18a.js"><link rel="prefetch" href="/ab.github.io/assets/js/50.1ae2bdcd.js"><link rel="prefetch" href="/ab.github.io/assets/js/51.674c57ea.js"><link rel="prefetch" href="/ab.github.io/assets/js/52.ff2c7e45.js"><link rel="prefetch" href="/ab.github.io/assets/js/53.be664036.js"><link rel="prefetch" href="/ab.github.io/assets/js/54.8cce7507.js"><link rel="prefetch" href="/ab.github.io/assets/js/55.6b760972.js"><link rel="prefetch" href="/ab.github.io/assets/js/56.6eb6e41e.js"><link rel="prefetch" href="/ab.github.io/assets/js/57.cc28aca1.js"><link rel="prefetch" href="/ab.github.io/assets/js/58.a5492eb6.js"><link rel="prefetch" href="/ab.github.io/assets/js/59.1e08d5bf.js"><link rel="prefetch" href="/ab.github.io/assets/js/6.f27bc905.js"><link rel="prefetch" href="/ab.github.io/assets/js/60.4299be59.js"><link rel="prefetch" href="/ab.github.io/assets/js/61.4ff4a4a1.js"><link rel="prefetch" href="/ab.github.io/assets/js/62.4a407a43.js"><link rel="prefetch" href="/ab.github.io/assets/js/63.40dbafdd.js"><link rel="prefetch" href="/ab.github.io/assets/js/64.e577cce3.js"><link rel="prefetch" href="/ab.github.io/assets/js/65.f23a0806.js"><link rel="prefetch" href="/ab.github.io/assets/js/66.c2281249.js"><link rel="prefetch" href="/ab.github.io/assets/js/67.d9bfcdba.js"><link rel="prefetch" href="/ab.github.io/assets/js/68.f6c5910f.js"><link rel="prefetch" href="/ab.github.io/assets/js/69.b805215c.js"><link rel="prefetch" href="/ab.github.io/assets/js/70.e6f48ea9.js"><link rel="prefetch" href="/ab.github.io/assets/js/71.49b2b9fa.js"><link rel="prefetch" href="/ab.github.io/assets/js/72.c1b4c87b.js"><link rel="prefetch" href="/ab.github.io/assets/js/73.91cc3de6.js"><link rel="prefetch" href="/ab.github.io/assets/js/74.de3696d2.js"><link rel="prefetch" href="/ab.github.io/assets/js/75.0889d39e.js"><link rel="prefetch" href="/ab.github.io/assets/js/76.98af7c96.js"><link rel="prefetch" href="/ab.github.io/assets/js/77.3462e4bb.js"><link rel="prefetch" href="/ab.github.io/assets/js/78.0c79c60b.js"><link rel="prefetch" href="/ab.github.io/assets/js/79.bb060c71.js"><link rel="prefetch" href="/ab.github.io/assets/js/8.e094bf35.js"><link rel="prefetch" href="/ab.github.io/assets/js/80.22e2944b.js"><link rel="prefetch" href="/ab.github.io/assets/js/81.cfe64609.js"><link rel="prefetch" href="/ab.github.io/assets/js/82.66dbbd4c.js"><link rel="prefetch" href="/ab.github.io/assets/js/83.9d57ba33.js"><link rel="prefetch" href="/ab.github.io/assets/js/84.5aeaf95a.js"><link rel="prefetch" href="/ab.github.io/assets/js/85.51211318.js"><link rel="prefetch" href="/ab.github.io/assets/js/86.be4e6bd6.js"><link rel="prefetch" href="/ab.github.io/assets/js/87.a52dcd6b.js"><link rel="prefetch" href="/ab.github.io/assets/js/88.ba5255aa.js"><link rel="prefetch" href="/ab.github.io/assets/js/89.97003e72.js"><link rel="prefetch" href="/ab.github.io/assets/js/9.0d846328.js"><link rel="prefetch" href="/ab.github.io/assets/js/90.198afd43.js"><link rel="prefetch" href="/ab.github.io/assets/js/92.47d727f5.js"><link rel="prefetch" href="/ab.github.io/assets/js/93.4a2c2610.js"><link rel="prefetch" href="/ab.github.io/assets/js/94.93e55675.js"><link rel="prefetch" href="/ab.github.io/assets/js/95.05fc0e7e.js"><link rel="prefetch" href="/ab.github.io/assets/js/96.7899b613.js"><link rel="prefetch" href="/ab.github.io/assets/js/97.94358d95.js"><link rel="prefetch" href="/ab.github.io/assets/js/98.cce5cc16.js"><link rel="prefetch" href="/ab.github.io/assets/js/99.d24e8b5b.js"><link rel="prefetch" href="/ab.github.io/assets/js/vendors~docsearch.3b52675e.js">
+    <link rel="stylesheet" href="/ab.github.io/assets/css/0.styles.dfda38fb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>安柏</h3> <p class="description" data-v-59e6cb88>苦厄难磨凌云志，不死终有出头日</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2026
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/ab.github.io/" class="home-link router-link-active"><img src="/ab.github.io/favicon.png" alt="安柏" class="logo"> <span class="site-name">安柏</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/ab.github.io/" class="nav-link"><i class="undefined"></i>
+  首页
+</a></div><div class="nav-item"><a href="/ab.github.io/notes/" class="nav-link router-link-active"><i class="undefined"></i>
+  技术笔记
+</a></div><div class="nav-item"><a href="/ab.github.io/projects/" class="nav-link"><i class="undefined"></i>
+  项目实践
+</a></div><div class="nav-item"><a href="/ab.github.io/archive/" class="nav-link"><i class="undefined"></i>
+  归档
+</a></div><div class="nav-item"><a href="/ab.github.io/about/" class="nav-link"><i class="undefined"></i>
+  关于我
+</a></div><div class="nav-item"><a href="/ab.github.io/admin/" class="nav-link"><i class="undefined"></i>
+  Admin
+</a></div><div class="nav-item"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><img src="/ab.github.io/images/avatar.png" alt="author-avatar" class="personal-img" data-v-1fad0c41> <!----> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>102</h3> <h6 data-v-1fad0c41>Articles</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>276</h3> <h6 data-v-1fad0c41>Tags</h6></div></div> <ul class="social-links" data-v-1fad0c41></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="/ab.github.io/" class="nav-link"><i class="undefined"></i>
+  首页
+</a></div><div class="nav-item"><a href="/ab.github.io/notes/" class="nav-link router-link-active"><i class="undefined"></i>
+  技术笔记
+</a></div><div class="nav-item"><a href="/ab.github.io/projects/" class="nav-link"><i class="undefined"></i>
+  项目实践
+</a></div><div class="nav-item"><a href="/ab.github.io/archive/" class="nav-link"><i class="undefined"></i>
+  归档
+</a></div><div class="nav-item"><a href="/ab.github.io/about/" class="nav-link"><i class="undefined"></i>
+  关于我
+</a></div><div class="nav-item"><a href="/ab.github.io/admin/" class="nav-link"><i class="undefined"></i>
+  Admin
+</a></div><div class="nav-item"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav> <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>AWD</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>C语言</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>C++</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/ab.github.io/notes/cpp-class-1.html" class="sidebar-link">C++类与对象Ⅰ——封装基础</a></li><li><a href="/ab.github.io/notes/cpp-class-2.html" class="sidebar-link">C++类与对象Ⅱ——构造函数与析构函数</a></li><li><a href="/ab.github.io/notes/cpp-class-3.html" class="sidebar-link">C++类与对象Ⅲ——运算符重载</a></li><li><a href="/ab.github.io/notes/cpp-class-4.html" class="sidebar-link">C++类与对象Ⅳ——静态成员与友元</a></li><li><a href="/ab.github.io/notes/cpp-class-5.html" class="sidebar-link">C++类与对象Ⅴ——综合实战：Student管理系统</a></li><li><a href="/ab.github.io/notes/cpp-inherit-1.html" class="sidebar-link">C++继承与多态Ⅰ——继承基础</a></li><li><a href="/ab.github.io/notes/cpp-inherit-2.html" class="sidebar-link">C++继承与多态Ⅱ——多继承与虚继承</a></li><li><a href="/ab.github.io/notes/cpp-inherit-3.html" class="sidebar-link">C++继承与多态Ⅲ——多态基础</a></li><li><a href="/ab.github.io/notes/cpp-inherit-4.html" class="sidebar-link">C++继承与多态Ⅳ——多态进阶</a></li><li><a href="/ab.github.io/notes/cpp-inherit-5.html" class="sidebar-link">C++继承与多态Ⅴ——综合实战：图形系统</a></li><li><a href="/ab.github.io/notes/cpp-modern-1.html" class="sidebar-link">C++现代特性Ⅰ——智能指针</a></li><li><a href="/ab.github.io/notes/cpp-modern-2.html" aria-current="page" class="active sidebar-link">C++现代特性Ⅱ——移动语义与右值引用</a></li><li><a href="/ab.github.io/notes/cpp-modern-3.html" class="sidebar-link">C++现代特性Ⅲ——lambda表达式</a></li><li><a href="/ab.github.io/notes/cpp-modern-4.html" class="sidebar-link">C++现代特性Ⅳ——auto与类型推导</a></li><li><a href="/ab.github.io/notes/cpp-modern-5.html" class="sidebar-link">C++现代特性Ⅴ——综合实战</a></li><li><a href="/ab.github.io/notes/cpp-stl-1.html" class="sidebar-link">C++STL标准模板库Ⅰ——容器概览与vector</a></li><li><a href="/ab.github.io/notes/cpp-stl-2.html" class="sidebar-link">C++STL标准模板库Ⅱ——list与deque</a></li><li><a href="/ab.github.io/notes/cpp-stl-3.html" class="sidebar-link">C++STL标准模板库Ⅲ——关联容器</a></li><li><a href="/ab.github.io/notes/cpp-stl-4.html" class="sidebar-link">C++STL标准模板库Ⅳ——迭代器与函数对象</a></li><li><a href="/ab.github.io/notes/cpp-stl-5.html" class="sidebar-link">C++STL标准模板库Ⅴ——算法与综合实战</a></li><li><a href="/ab.github.io/notes/cpp-upgrade-1.html" class="sidebar-link">C++对C的升级Ⅰ——从C到C++的过渡</a></li><li><a href="/ab.github.io/notes/cpp-upgrade-2.html" class="sidebar-link">C++对C的升级Ⅱ——引用与指针</a></li><li><a href="/ab.github.io/notes/cpp-upgrade-3.html" class="sidebar-link">C++对C的升级Ⅲ——函数增强</a></li><li><a href="/ab.github.io/notes/cpp-upgrade-4.html" class="sidebar-link">C++对C的升级Ⅳ——动态内存管理</a></li><li><a href="/ab.github.io/notes/cpp-upgrade-5.html" class="sidebar-link">C++对C的升级Ⅴ——综合实战：用C++重写链表成绩管理系统</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>密码学</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>致2026届新生</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>后端技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>网络安全</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>PWN</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Python</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>前端技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>漏洞挖掘</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Web安全</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>C++现代特性Ⅱ——移动语义与右值引用</h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2026
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page" style="padding-right:0;"><section style="display:;"><div class="page-title"><h1 class="title">C++现代特性Ⅱ——移动语义与右值引用</h1> <div data-v-8a445198><!----> <i class="iconfont reco-date" data-v-8a445198><span data-v-8a445198>7/26/2026</span></i> <!----> <i class="tags iconfont reco-tag" data-v-8a445198><span class="tag-item" data-v-8a445198>C++</span><span class="tag-item" data-v-8a445198>移动语义</span><span class="tag-item" data-v-8a445198>右值引用</span><span class="tag-item" data-v-8a445198>std.move</span></i></div></div> <div class="theme-reco-content content__default"><h2 id="一、左值与右值"><a href="#一、左值与右值" class="header-anchor">#</a> 一、左值与右值</h2> <h3 id="_1-1-左值与右值的基本概念"><a href="#_1-1-左值与右值的基本概念" class="header-anchor">#</a> 1.1 左值与右值的基本概念</h3> <p>在C++中，每个表达式有两个属性：类型和值类别。值类别分为左值（lvalue）和右值（rvalue）：</p> <ul><li><strong>左值</strong>：可以取地址的表达式，有名字的变量通常是左值</li> <li><strong>右值</strong>：不能取地址的表达式，临时对象和字面量是右值</li></ul> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 左值与右值 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>           <span class="token comment">// a是左值，10是右值</span>
+    <span class="token keyword">int</span> b <span class="token operator">=</span> a<span class="token punctuation">;</span>            <span class="token comment">// b是左值，a是左值（可以出现在赋值号左边）</span>
+    <span class="token keyword">int</span> c <span class="token operator">=</span> a <span class="token operator">+</span> b<span class="token punctuation">;</span>        <span class="token comment">// a + b是右值（临时结果）</span>
+    
+    <span class="token comment">// 左值可以取地址</span>
+    <span class="token keyword">int</span><span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>a<span class="token punctuation">;</span>        <span class="token comment">// 正确</span>
+    <span class="token comment">// int* ptr2 = &amp;(a + b);  // 错误！右值不能取地址</span>
+    
+    <span class="token comment">// 左值引用</span>
+    <span class="token keyword">int</span><span class="token operator">&amp;</span> ref <span class="token operator">=</span> a<span class="token punctuation">;</span>         <span class="token comment">// 左值引用绑定到左值</span>
+    <span class="token comment">// int&amp; ref2 = 10;    // 错误！左值引用不能绑定到右值</span>
+    
+    <span class="token comment">// const左值引用可以绑定到右值</span>
+    <span class="token keyword">const</span> <span class="token keyword">int</span><span class="token operator">&amp;</span> cref <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>  <span class="token comment">// 正确</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;a = &quot;</span> <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;ref = &quot;</span> <span class="token operator">&lt;&lt;</span> ref <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;cref = &quot;</span> <span class="token operator">&lt;&lt;</span> cref <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_1-2-判断左值和右值"><a href="#_1-2-判断左值和右值" class="header-anchor">#</a> 1.2 判断左值和右值</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token comment">// 判断左值/右值的辅助函数</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">checkValueCategory</span><span class="token punctuation">(</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span> name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>is_lvalue_reference<span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; 是左值引用&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>is_rvalue_reference<span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; 是右值引用&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; 是值类型&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> globalVar <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>  <span class="token comment">// 全局变量是左值</span>
+
+<span class="token keyword">int</span> <span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token number">42</span><span class="token punctuation">;</span>  <span class="token comment">// 返回的是右值</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span><span class="token operator">&amp;</span> <span class="token function">getRef</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> globalVar<span class="token punctuation">;</span>  <span class="token comment">// 返回左值引用</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 判断左值/右值 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span><span class="token operator">*</span> ptr <span class="token operator">=</span> <span class="token operator">&amp;</span>x<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;x（变量）: 左值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;10（字面量）: 右值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;x + 5（表达式）: 右值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;getValue()（返回值）: 右值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;getRef()（返回引用）: 左值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;*ptr（解引用）: 左值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;&amp;x（取地址）: 右值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;string(\&quot;hello\&quot;)（临时对象）: 右值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n特殊情况：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; - 字符串字面量\&quot;hello\&quot;是左值（可以取地址）&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; - 命名右值引用变量本身是左值&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="二、右值引用"><a href="#二、右值引用" class="header-anchor">#</a> 二、右值引用</h2> <h3 id="_2-1-右值引用的基本语法"><a href="#_2-1-右值引用的基本语法" class="header-anchor">#</a> 2.1 右值引用的基本语法</h3> <p>右值引用使用<code>&amp;&amp;</code>声明，用于绑定到右值：</p> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 右值引用 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 右值引用绑定到右值</span>
+    <span class="token keyword">int</span><span class="token operator">&amp;&amp;</span> rref1 <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;rref1 = &quot;</span> <span class="token operator">&lt;&lt;</span> rref1 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">int</span><span class="token operator">&amp;&amp;</span> rref2 <span class="token operator">=</span> <span class="token number">5</span> <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;rref2 = &quot;</span> <span class="token operator">&lt;&lt;</span> rref2 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    string<span class="token operator">&amp;&amp;</span> rref3 <span class="token operator">=</span> <span class="token function">string</span><span class="token punctuation">(</span><span class="token string">&quot;hello&quot;</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">&quot; world&quot;</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;rref3 = &quot;</span> <span class="token operator">&lt;&lt;</span> rref3 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 右值引用不能绑定到左值</span>
+    <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">42</span><span class="token punctuation">;</span>
+    <span class="token comment">// int&amp;&amp; rref4 = x;  // 错误！不能将右值引用绑定到左值</span>
+    
+    <span class="token comment">// 但可以使用std::move将左值转为右值</span>
+    <span class="token keyword">int</span><span class="token operator">&amp;&amp;</span> rref4 <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;rref4 = &quot;</span> <span class="token operator">&lt;&lt;</span> rref4 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;x = &quot;</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>  <span class="token comment">// x仍然有效，但值可能被移动</span>
+    
+    <span class="token comment">// 右值引用本身是左值</span>
+    <span class="token comment">// int&amp;&amp; rref5 = rref1;  // 错误！rref1是左值</span>
+    <span class="token keyword">int</span><span class="token operator">&amp;&amp;</span> rref5 <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>rref1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 需要move</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_2-2-右值引用的重载"><a href="#_2-2-右值引用的重载" class="header-anchor">#</a> 2.2 右值引用的重载</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token comment">// 左值引用版本</span>
+<span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>string<span class="token operator">&amp;</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;process(string&amp;) - 左值版本：&quot;</span> <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    s <span class="token operator">+=</span> <span class="token string">&quot; (modified)&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 右值引用版本</span>
+<span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span>string<span class="token operator">&amp;&amp;</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;process(string&amp;&amp;) - 右值版本：&quot;</span> <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    s <span class="token operator">+=</span> <span class="token string">&quot; (moved)&quot;</span><span class="token punctuation">;</span>  <span class="token comment">// 可以直接修改，因为右值即将被销毁</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// const左值引用版本</span>
+<span class="token keyword">void</span> <span class="token function">process</span><span class="token punctuation">(</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;process(const string&amp;) - const版本：&quot;</span> <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 右值引用重载 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    string str <span class="token operator">=</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 调用左值引用版本</span>
+    <span class="token function">process</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;调用后str = &quot;</span> <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 调用右值引用版本</span>
+    <span class="token function">process</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token string">&quot;world&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 调用右值引用版本（move后）</span>
+    <span class="token function">process</span><span class="token punctuation">(</span><span class="token function">move</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;move后str = &quot;</span> <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 如果只有const&amp;版本，右值也可以绑定</span>
+    <span class="token keyword">const</span> string cstr <span class="token operator">=</span> <span class="token string">&quot;constant&quot;</span><span class="token punctuation">;</span>
+    <span class="token function">process</span><span class="token punctuation">(</span>cstr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="三、移动构造函数与移动赋值运算符"><a href="#三、移动构造函数与移动赋值运算符" class="header-anchor">#</a> 三、移动构造函数与移动赋值运算符</h2> <h3 id="_3-1-移动构造函数的实现"><a href="#_3-1-移动构造函数的实现" class="header-anchor">#</a> 3.1 移动构造函数的实现</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstring&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;chrono&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">MyString</span> <span class="token punctuation">{</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    <span class="token keyword">char</span><span class="token operator">*</span> data<span class="token punctuation">;</span>
+    size_t length<span class="token punctuation">;</span>
+    
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token comment">// 默认构造函数</span>
+    <span class="token function">MyString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span><span class="token keyword">nullptr</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">length</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;默认构造&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 普通构造函数</span>
+    <span class="token function">MyString</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> str<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        length <span class="token operator">=</span> <span class="token function">strlen</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">char</span><span class="token punctuation">[</span>length <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token function">strcpy</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;普通构造：&quot;</span> <span class="token operator">&lt;&lt;</span> data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 拷贝构造函数</span>
+    <span class="token function">MyString</span><span class="token punctuation">(</span><span class="token keyword">const</span> MyString<span class="token operator">&amp;</span> other<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        length <span class="token operator">=</span> other<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">char</span><span class="token punctuation">[</span>length <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token function">strcpy</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> other<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;拷贝构造：&quot;</span> <span class="token operator">&lt;&lt;</span> data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 移动构造函数</span>
+    <span class="token function">MyString</span><span class="token punctuation">(</span>MyString<span class="token operator">&amp;&amp;</span> other<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 直接&quot;窃取&quot;other的资源</span>
+        data <span class="token operator">=</span> other<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+        length <span class="token operator">=</span> other<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+        
+        <span class="token comment">// 将other置于有效但未指定的状态</span>
+        other<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+        other<span class="token punctuation">.</span>length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;移动构造：&quot;</span> <span class="token operator">&lt;&lt;</span> data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 拷贝赋值运算符</span>
+    MyString<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token keyword">const</span> MyString<span class="token operator">&amp;</span> other<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">!=</span> <span class="token operator">&amp;</span>other<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>
+            length <span class="token operator">=</span> other<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+            data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">char</span><span class="token punctuation">[</span>length <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token function">strcpy</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> other<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;拷贝赋值：&quot;</span> <span class="token operator">&lt;&lt;</span> data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 移动赋值运算符</span>
+    MyString<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">=</span><span class="token punctuation">(</span>MyString<span class="token operator">&amp;&amp;</span> other<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">!=</span> <span class="token operator">&amp;</span>other<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>  <span class="token comment">// 释放自己的资源</span>
+            
+            <span class="token comment">// 窃取other的资源</span>
+            data <span class="token operator">=</span> other<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+            length <span class="token operator">=</span> other<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+            
+            other<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+            other<span class="token punctuation">.</span>length <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;移动赋值：&quot;</span> <span class="token operator">&lt;&lt;</span> data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 析构函数</span>
+    <span class="token operator">~</span><span class="token function">MyString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;析构：&quot;</span> <span class="token operator">&lt;&lt;</span> data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+            <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;析构：空&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> <span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> data <span class="token operator">?</span> data <span class="token operator">:</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    size_t <span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> length<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 移动构造与移动赋值 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;--- 拷贝构造 ---&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    MyString <span class="token function">s1</span><span class="token punctuation">(</span><span class="token string">&quot;Hello&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    MyString s2 <span class="token operator">=</span> s1<span class="token punctuation">;</span>  <span class="token comment">// 拷贝构造</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s1 = &quot;</span> <span class="token operator">&lt;&lt;</span> s1<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s2 = &quot;</span> <span class="token operator">&lt;&lt;</span> s2<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n--- 移动构造 ---&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    MyString s3 <span class="token operator">=</span> <span class="token function">MyString</span><span class="token punctuation">(</span><span class="token string">&quot;World&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 移动构造（临时对象）</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s3 = &quot;</span> <span class="token operator">&lt;&lt;</span> s3<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n--- move强制移动 ---&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    MyString s4 <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 强制移动s2</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s2 = &quot;</span> <span class="token operator">&lt;&lt;</span> s2<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;（已被移动）&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s4 = &quot;</span> <span class="token operator">&lt;&lt;</span> s4<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n--- 移动赋值 ---&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    MyString <span class="token function">s5</span><span class="token punctuation">(</span><span class="token string">&quot;C++&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    s5 <span class="token operator">=</span> <span class="token function">MyString</span><span class="token punctuation">(</span><span class="token string">&quot;Modern&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 移动赋值</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s5 = &quot;</span> <span class="token operator">&lt;&lt;</span> s5<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_3-2-移动语义的性能优势"><a href="#_3-2-移动语义的性能优势" class="header-anchor">#</a> 3.2 移动语义的性能优势</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;chrono&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token punctuation">;</span>
+
+<span class="token comment">// 没有移动语义的类</span>
+<span class="token keyword">class</span> <span class="token class-name">NoMove</span> <span class="token punctuation">{</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> data<span class="token punctuation">;</span>
+    
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">NoMove</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            data<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 只有拷贝构造</span>
+    <span class="token function">NoMove</span><span class="token punctuation">(</span><span class="token keyword">const</span> NoMove<span class="token operator">&amp;</span> other<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 深拷贝，开销大</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 没有移动构造函数</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 有移动语义的类</span>
+<span class="token keyword">class</span> <span class="token class-name">WithMove</span> <span class="token punctuation">{</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> data<span class="token punctuation">;</span>
+    
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">WithMove</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span>size<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>size_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            data<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token function">WithMove</span><span class="token punctuation">(</span><span class="token keyword">const</span> WithMove<span class="token operator">&amp;</span> other<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    
+    <span class="token comment">// 移动构造函数</span>
+    <span class="token function">WithMove</span><span class="token punctuation">(</span>WithMove<span class="token operator">&amp;&amp;</span> other<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token operator">:</span> <span class="token function">data</span><span class="token punctuation">(</span><span class="token function">move</span><span class="token punctuation">(</span>other<span class="token punctuation">.</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 移动语义性能对比 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">const</span> size_t SIZE <span class="token operator">=</span> <span class="token number">10000000</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token keyword">int</span> ITERATIONS <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 测试无移动语义</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">auto</span> start <span class="token operator">=</span> high_resolution_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        vector<span class="token operator">&lt;</span>NoMove<span class="token operator">&gt;</span> vec<span class="token punctuation">;</span>
+        vec<span class="token punctuation">.</span><span class="token function">reserve</span><span class="token punctuation">(</span>ITERATIONS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> ITERATIONS<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            NoMove <span class="token function">obj</span><span class="token punctuation">(</span>SIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            vec<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 拷贝，开销大</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">auto</span> end <span class="token operator">=</span> high_resolution_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;无移动语义：&quot;</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">duration_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>milliseconds<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>end <span class="token operator">-</span> start<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+             <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; ms&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment">// 测试有移动语义</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">auto</span> start <span class="token operator">=</span> high_resolution_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        vector<span class="token operator">&lt;</span>WithMove<span class="token operator">&gt;</span> vec<span class="token punctuation">;</span>
+        vec<span class="token punctuation">.</span><span class="token function">reserve</span><span class="token punctuation">(</span>ITERATIONS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> ITERATIONS<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            WithMove <span class="token function">obj</span><span class="token punctuation">(</span>SIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            vec<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">move</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 移动，开销小</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">auto</span> end <span class="token operator">=</span> high_resolution_clock<span class="token double-colon punctuation">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;有移动语义：&quot;</span> <span class="token operator">&lt;&lt;</span> <span class="token generic-function"><span class="token function">duration_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>milliseconds<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>end <span class="token operator">-</span> start<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 
+             <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; ms&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="四、std-move详解"><a href="#四、std-move详解" class="header-anchor">#</a> 四、std::move详解</h2> <h3 id="_4-1-std-move的原理"><a href="#_4-1-std-move的原理" class="header-anchor">#</a> 4.1 std::move的原理</h3> <p>std::move本质上是一个类型转换，它将左值无条件地转换为右值引用：</p> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token comment">// 简化的std::move实现</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword">typename</span> <span class="token class-name">remove_reference</span><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&amp;&amp;</span> <span class="token function">my_move</span><span class="token punctuation">(</span>T<span class="token operator">&amp;&amp;</span> t<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">static_cast</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">remove_reference</span><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&amp;&amp;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== std::move原理 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;std::move做了什么：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  1. 接收任意类型的参数&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  2. 移除引用&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  3. 转换为右值引用&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  4. 返回右值引用&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\nstd::move不做什么：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  1. 不移动任何东西&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  2. 不生成任何代码&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  3. 不改变对象本身&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  4. 只是类型转换&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 演示</span>
+    string s1 <span class="token operator">=</span> <span class="token string">&quot;Hello&quot;</span><span class="token punctuation">;</span>
+    string s2 <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// move只是类型转换，真正的移动发生在string的移动构造函数中</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\ns1 = \&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> s1 <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;（已被移动）&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;s2 = \&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> s2 <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_4-2-std-move的使用场景"><a href="#_4-2-std-move的使用场景" class="header-anchor">#</a> 4.2 std::move的使用场景</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== std::move使用场景 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 场景1：将对象放入容器时避免拷贝</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;场景1：放入容器&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span>string<span class="token operator">&gt;</span> vec<span class="token punctuation">;</span>
+    string str <span class="token operator">=</span> <span class="token string">&quot;Hello, World!&quot;</span><span class="token punctuation">;</span>
+    vec<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">move</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 移动而非拷贝</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;str = \&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> str <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;（已空）&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;vec[0] = \&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> vec<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 场景2：交换两个对象</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n场景2：交换对象&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    string a <span class="token operator">=</span> <span class="token string">&quot;first&quot;</span><span class="token punctuation">;</span>
+    string b <span class="token operator">=</span> <span class="token string">&quot;second&quot;</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;交换前：a=\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;, b=\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token comment">// 高效的交换（使用移动语义）</span>
+    string tmp <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    a <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    b <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;交换后：a=\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> a <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;, b=\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> b <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\&quot;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 场景3：unique_ptr的所有权转移</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n场景3：unique_ptr所有权转移&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    unique_ptr<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> ptr1 <span class="token operator">=</span> <span class="token generic-function"><span class="token function">make_unique</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token number">42</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;ptr1 = &quot;</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>ptr1 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    unique_ptr<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> ptr2 <span class="token operator">=</span> <span class="token function">move</span><span class="token punctuation">(</span>ptr1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;ptr1 = &quot;</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span>ptr1 <span class="token operator">?</span> <span class="token string">&quot;非空&quot;</span> <span class="token operator">:</span> <span class="token string">&quot;nullptr&quot;</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;ptr2 = &quot;</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>ptr2 <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="五、std-forward与完美转发"><a href="#五、std-forward与完美转发" class="header-anchor">#</a> 五、std::forward与完美转发</h2> <h3 id="_5-1-完美转发的概念"><a href="#_5-1-完美转发的概念" class="header-anchor">#</a> 5.1 完美转发的概念</h3> <p>完美转发是指在模板函数中，将参数的值类别（左值/右值）原封不动地转发给另一个函数：</p> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token comment">// 目标函数</span>
+<span class="token keyword">void</span> <span class="token function">target</span><span class="token punctuation">(</span>string<span class="token operator">&amp;</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;target(string&amp;) - 左值：&quot;</span> <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">target</span><span class="token punctuation">(</span>string<span class="token operator">&amp;&amp;</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;target(string&amp;&amp;) - 右值：&quot;</span> <span class="token operator">&lt;&lt;</span> s <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 不使用forward：右值引用参数在函数内部变为左值</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">badForward</span><span class="token punctuation">(</span>T<span class="token operator">&amp;&amp;</span> param<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">target</span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// param是左值（有名字），所以总是调用左值版本</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 使用forward：完美转发值类别</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">goodForward</span><span class="token punctuation">(</span>T<span class="token operator">&amp;&amp;</span> param<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">target</span><span class="token punctuation">(</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>param<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 转发时保持原始值类别</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 完美转发 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    string str <span class="token operator">=</span> <span class="token string">&quot;hello&quot;</span><span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;--- 不使用forward ---&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token function">badForward</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">// 期望左值版本</span>
+    <span class="token function">badForward</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token string">&quot;world&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 期望右值版本，但实际调用左值版本</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n--- 使用forward ---&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token function">goodForward</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">// 正确转发为左值</span>
+    <span class="token function">goodForward</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token string">&quot;world&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 正确转发为右值</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_5-2-forward的实现原理"><a href="#_5-2-forward的实现原理" class="header-anchor">#</a> 5.2 forward的实现原理</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token comment">// 简化的std::forward实现</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T<span class="token operator">&amp;&amp;</span> <span class="token function">simple_forward</span><span class="token punctuation">(</span><span class="token keyword">typename</span> <span class="token class-name">remove_reference</span><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&amp;</span> t<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>T<span class="token operator">&amp;&amp;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">&gt;</span>
+T<span class="token operator">&amp;&amp;</span> <span class="token function">simple_forward</span><span class="token punctuation">(</span><span class="token keyword">typename</span> <span class="token class-name">remove_reference</span><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span><span class="token double-colon punctuation">::</span>type<span class="token operator">&amp;&amp;</span> t<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">static_cast</span><span class="token generic class-name"><span class="token operator">&lt;</span>T<span class="token operator">&amp;&amp;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>t<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 完美转发与可变参数模板</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> Args<span class="token operator">&gt;</span>
+<span class="token keyword">void</span> <span class="token function">logAndCall</span><span class="token punctuation">(</span>Args<span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 使用forward完美转发每个参数</span>
+    <span class="token keyword">auto</span> print <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">auto</span><span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> params<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">(</span><span class="token punctuation">(</span>cout <span class="token operator">&lt;&lt;</span> params <span class="token operator">&lt;&lt;</span> <span class="token string">&quot; &quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cout <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>Args<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== forward实现原理 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;forward的工作原理：\n&quot;</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  1. 通过模板参数T推导值类别\n&quot;</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  2. 如果T是string&amp;，forward返回string&amp;\n&quot;</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  3. 如果T是string&amp;&amp;，forward返回string&amp;&amp;\n&quot;</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  4. 引用折叠规则确保正确性\n&quot;</span><span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n引用折叠规则：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  T&amp; &amp;   -&gt; T&amp;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  T&amp; &amp;&amp;  -&gt; T&amp;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  T&amp;&amp; &amp;  -&gt; T&amp;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;  T&amp;&amp; &amp;&amp; -&gt; T&amp;&amp;&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n完美转发示例：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token function">logAndCall</span><span class="token punctuation">(</span><span class="token string">&quot;C++&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;现代&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;特性&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="_5-3-完美转发的实际应用"><a href="#_5-3-完美转发的实际应用" class="header-anchor">#</a> 5.3 完美转发的实际应用</h3> <div class="language-cpp extra-class"><pre class="language-cpp"><code><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;memory&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;string&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;vector&gt;</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility&gt;</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token comment">// 使用完美转发实现工厂函数</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> Args<span class="token operator">&gt;</span>
+unique_ptr<span class="token operator">&lt;</span>T<span class="token operator">&gt;</span> <span class="token function">makeUnique</span><span class="token punctuation">(</span>Args<span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token generic-function"><span class="token function">unique_ptr</span><span class="token generic class-name"><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token function">T</span><span class="token punctuation">(</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>Args<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>args<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// 使用完美转发的包装器</span>
+<span class="token keyword">class</span> <span class="token class-name">Widget</span> <span class="token punctuation">{</span>
+<span class="token keyword">private</span><span class="token operator">:</span>
+    string name<span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> data<span class="token punctuation">;</span>
+    
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">Widget</span><span class="token punctuation">(</span><span class="token keyword">const</span> string<span class="token operator">&amp;</span> n<span class="token punctuation">,</span> <span class="token keyword">const</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;</span> d<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">name</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">data</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;Widget拷贝构造：&quot;</span> <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token function">Widget</span><span class="token punctuation">(</span>string<span class="token operator">&amp;&amp;</span> n<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span><span class="token operator">&amp;&amp;</span> d<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">name</span><span class="token punctuation">(</span><span class="token function">move</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">data</span><span class="token punctuation">(</span><span class="token function">move</span><span class="token punctuation">(</span>d<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;Widget移动构造：&quot;</span> <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">display</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">{</span>
+        cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;Widget[&quot;</span> <span class="token operator">&lt;&lt;</span> name <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;] data size=&quot;</span> <span class="token operator">&lt;&lt;</span> data<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 使用完美转发创建Widget</span>
+<span class="token keyword">template</span><span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">Str</span><span class="token punctuation">,</span> <span class="token keyword">typename</span> <span class="token class-name">Vec</span><span class="token operator">&gt;</span>
+Widget <span class="token function">createWidget</span><span class="token punctuation">(</span>Str<span class="token operator">&amp;&amp;</span> name<span class="token punctuation">,</span> Vec<span class="token operator">&amp;&amp;</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">Widget</span><span class="token punctuation">(</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>Str<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>Vec<span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;========== 完美转发实际应用 ==========\n&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 使用工厂函数</span>
+    <span class="token keyword">auto</span> ptr <span class="token operator">=</span> <span class="token generic-function"><span class="token function">makeUnique</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">(</span><span class="token number">42</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;makeUnique&lt;int&gt;(42) = &quot;</span> <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>ptr <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 使用完美转发的包装器</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n使用左值参数：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    string name <span class="token operator">=</span> <span class="token string">&quot;MyWidget&quot;</span><span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span> data <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+    Widget w1 <span class="token operator">=</span> <span class="token function">createWidget</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 拷贝</span>
+    
+    cout <span class="token operator">&lt;&lt;</span> <span class="token string">&quot;\n使用右值参数：&quot;</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    Widget w2 <span class="token operator">=</span> <span class="token function">createWidget</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token string">&quot;TempWidget&quot;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">&gt;</span><span class="token punctuation">{</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 移动</span>
+    
+    w1<span class="token punctuation">.</span><span class="token function">display</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    w2<span class="token punctuation">.</span><span class="token function">display</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="六、总结"><a href="#六、总结" class="header-anchor">#</a> 六、总结</h2> <p>移动语义和右值引用是C++11中最重要的特性之一，它们从根本上改变了C++处理资源的方式。</p> <h3 id="核心知识点"><a href="#核心知识点" class="header-anchor">#</a> 核心知识点</h3> <ol><li><strong>左值与右值</strong>：左值可以取地址，右值不能。这是理解移动语义的基础。</li> <li><strong>右值引用</strong>：使用<code>&amp;&amp;</code>声明，绑定到右值。允许安全地&quot;窃取&quot;临时对象的资源。</li> <li><strong>移动构造函数</strong>：通过&quot;窃取&quot;资源避免深拷贝，大幅提升性能。</li> <li><strong>移动赋值运算符</strong>：释放自身资源后窃取源对象的资源。</li> <li><strong>std::move</strong>：将左值转换为右值引用，本质上是类型转换。</li> <li><strong>std::forward</strong>：实现完美转发，保持参数的值类别。</li></ol> <h3 id="性能优势"><a href="#性能优势" class="header-anchor">#</a> 性能优势</h3> <p>移动语义的核心价值在于性能优化。对于管理堆内存的类（如vector、string），移动操作比拷贝操作快得多，因为移动只需要复制指针，不需要复制底层数据。</p> <h3 id="最佳实践"><a href="#最佳实践" class="header-anchor">#</a> 最佳实践</h3> <ul><li>为管理资源的类实现移动构造函数和移动赋值运算符</li> <li>移动操作应标记为<code>noexcept</code></li> <li>移动后的对象应处于有效但未指定的状态</li> <li>使用<code>std::move</code>明确表达所有权转移的意图</li> <li>使用<code>std::forward</code>实现完美转发</li> <li>理解&quot;右值引用本身是左值&quot;这一关键概念</li></ul> <p>移动语义不仅提升了性能，更重要的是使C++的资源管理更加安全和清晰。结合智能指针，现代C++已经能够实现完全自动化的资源管理。</p></div></section> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/ab.github.io/notes/cpp-modern-1.html" class="prev">
+          C++现代特性Ⅰ——智能指针
+        </a></span> <span class="next"><a href="/ab.github.io/notes/cpp-modern-3.html">
+          C++现代特性Ⅲ——lambda表达式
+        </a></span></p></div> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:0;" data-v-b57cc07c data-v-7dd95ae2></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/ab.github.io/assets/js/app.28cebbe8.js" defer></script><script src="/ab.github.io/assets/js/7.2e324f51.js" defer></script><script src="/ab.github.io/assets/js/2.1c582c6d.js" defer></script><script src="/ab.github.io/assets/js/1.8da3d8c4.js" defer></script><script src="/ab.github.io/assets/js/91.e2a2a69a.js" defer></script>
+  </body>
+</html>

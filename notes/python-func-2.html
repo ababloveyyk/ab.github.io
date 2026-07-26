@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Python函数与高级特性Ⅱ——作用域与闭包 | 安柏</title>
+    <meta name="generator" content="VuePress 1.9.10">
+    <link rel="icon" href="/ab.github.io/favicon.png">
+    <link rel="shortcut icon" href="/ab.github.io/favicon.png">
+    <meta name="description" content="苦厄难磨凌云志，不死终有出头日">
+    
+    <link rel="preload" href="/ab.github.io/assets/css/0.styles.dfda38fb.css" as="style"><link rel="preload" href="/ab.github.io/assets/js/app.28cebbe8.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/7.2e324f51.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/2.1c582c6d.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/1.8da3d8c4.js" as="script"><link rel="preload" href="/ab.github.io/assets/js/123.2044ca5e.js" as="script"><link rel="prefetch" href="/ab.github.io/assets/js/10.d31fcafb.js"><link rel="prefetch" href="/ab.github.io/assets/js/100.3007813a.js"><link rel="prefetch" href="/ab.github.io/assets/js/101.2bb3e45d.js"><link rel="prefetch" href="/ab.github.io/assets/js/102.89e333ee.js"><link rel="prefetch" href="/ab.github.io/assets/js/103.60b14994.js"><link rel="prefetch" href="/ab.github.io/assets/js/104.54585268.js"><link rel="prefetch" href="/ab.github.io/assets/js/105.85da55e1.js"><link rel="prefetch" href="/ab.github.io/assets/js/106.f9b24119.js"><link rel="prefetch" href="/ab.github.io/assets/js/107.e15240fc.js"><link rel="prefetch" href="/ab.github.io/assets/js/108.8333fa61.js"><link rel="prefetch" href="/ab.github.io/assets/js/109.1906502c.js"><link rel="prefetch" href="/ab.github.io/assets/js/11.f72fbb06.js"><link rel="prefetch" href="/ab.github.io/assets/js/110.8b805e84.js"><link rel="prefetch" href="/ab.github.io/assets/js/111.3108b4be.js"><link rel="prefetch" href="/ab.github.io/assets/js/112.c6c23224.js"><link rel="prefetch" href="/ab.github.io/assets/js/113.3da924ce.js"><link rel="prefetch" href="/ab.github.io/assets/js/114.bdeadb38.js"><link rel="prefetch" href="/ab.github.io/assets/js/115.fab1ecec.js"><link rel="prefetch" href="/ab.github.io/assets/js/116.948ca065.js"><link rel="prefetch" href="/ab.github.io/assets/js/117.be17be90.js"><link rel="prefetch" href="/ab.github.io/assets/js/118.cfbcd0f7.js"><link rel="prefetch" href="/ab.github.io/assets/js/119.11c06311.js"><link rel="prefetch" href="/ab.github.io/assets/js/120.2f0ae2db.js"><link rel="prefetch" href="/ab.github.io/assets/js/121.455f1a1a.js"><link rel="prefetch" href="/ab.github.io/assets/js/122.068d0e86.js"><link rel="prefetch" href="/ab.github.io/assets/js/124.94b1d70d.js"><link rel="prefetch" href="/ab.github.io/assets/js/125.3c1c33eb.js"><link rel="prefetch" href="/ab.github.io/assets/js/126.ebf5bb33.js"><link rel="prefetch" href="/ab.github.io/assets/js/127.cffd742f.js"><link rel="prefetch" href="/ab.github.io/assets/js/128.a24eb199.js"><link rel="prefetch" href="/ab.github.io/assets/js/129.00c9c2de.js"><link rel="prefetch" href="/ab.github.io/assets/js/130.e548ea2b.js"><link rel="prefetch" href="/ab.github.io/assets/js/131.bc2c94cc.js"><link rel="prefetch" href="/ab.github.io/assets/js/132.a005f2f7.js"><link rel="prefetch" href="/ab.github.io/assets/js/133.b9cc89f9.js"><link rel="prefetch" href="/ab.github.io/assets/js/134.ff725e93.js"><link rel="prefetch" href="/ab.github.io/assets/js/135.c734223d.js"><link rel="prefetch" href="/ab.github.io/assets/js/136.4267df97.js"><link rel="prefetch" href="/ab.github.io/assets/js/137.883b8585.js"><link rel="prefetch" href="/ab.github.io/assets/js/138.737fe8f5.js"><link rel="prefetch" href="/ab.github.io/assets/js/139.41a06e33.js"><link rel="prefetch" href="/ab.github.io/assets/js/14.1f8c5f39.js"><link rel="prefetch" href="/ab.github.io/assets/js/140.49e4abc1.js"><link rel="prefetch" href="/ab.github.io/assets/js/141.d192e096.js"><link rel="prefetch" href="/ab.github.io/assets/js/142.261cd236.js"><link rel="prefetch" href="/ab.github.io/assets/js/143.cccec2a0.js"><link rel="prefetch" href="/ab.github.io/assets/js/144.3c3811c7.js"><link rel="prefetch" href="/ab.github.io/assets/js/15.4cb5e448.js"><link rel="prefetch" href="/ab.github.io/assets/js/16.d82639ed.js"><link rel="prefetch" href="/ab.github.io/assets/js/17.eedd238c.js"><link rel="prefetch" href="/ab.github.io/assets/js/18.6a27c9f1.js"><link rel="prefetch" href="/ab.github.io/assets/js/19.8aaf6374.js"><link rel="prefetch" href="/ab.github.io/assets/js/20.11eaff49.js"><link rel="prefetch" href="/ab.github.io/assets/js/21.0002c3a0.js"><link rel="prefetch" href="/ab.github.io/assets/js/22.6ebdf13c.js"><link rel="prefetch" href="/ab.github.io/assets/js/23.06be7364.js"><link rel="prefetch" href="/ab.github.io/assets/js/24.dfe0a928.js"><link rel="prefetch" href="/ab.github.io/assets/js/25.06d6f3a4.js"><link rel="prefetch" href="/ab.github.io/assets/js/26.4d255383.js"><link rel="prefetch" href="/ab.github.io/assets/js/27.0bd1640e.js"><link rel="prefetch" href="/ab.github.io/assets/js/28.b59b3502.js"><link rel="prefetch" href="/ab.github.io/assets/js/29.ac9215a8.js"><link rel="prefetch" href="/ab.github.io/assets/js/3.f781e6d2.js"><link rel="prefetch" href="/ab.github.io/assets/js/30.57e9b692.js"><link rel="prefetch" href="/ab.github.io/assets/js/31.a478b0cc.js"><link rel="prefetch" href="/ab.github.io/assets/js/32.fe21e6f5.js"><link rel="prefetch" href="/ab.github.io/assets/js/33.9ee1ba56.js"><link rel="prefetch" href="/ab.github.io/assets/js/34.c6caad28.js"><link rel="prefetch" href="/ab.github.io/assets/js/35.374e6283.js"><link rel="prefetch" href="/ab.github.io/assets/js/36.002eefc4.js"><link rel="prefetch" href="/ab.github.io/assets/js/37.0a9869b6.js"><link rel="prefetch" href="/ab.github.io/assets/js/38.95aec12c.js"><link rel="prefetch" href="/ab.github.io/assets/js/39.620e5967.js"><link rel="prefetch" href="/ab.github.io/assets/js/4.bb1fcae8.js"><link rel="prefetch" href="/ab.github.io/assets/js/40.489b3044.js"><link rel="prefetch" href="/ab.github.io/assets/js/41.eed87d21.js"><link rel="prefetch" href="/ab.github.io/assets/js/42.06753a97.js"><link rel="prefetch" href="/ab.github.io/assets/js/43.08292e0e.js"><link rel="prefetch" href="/ab.github.io/assets/js/44.2d7eab8d.js"><link rel="prefetch" href="/ab.github.io/assets/js/45.59ba18af.js"><link rel="prefetch" href="/ab.github.io/assets/js/46.6ff18db7.js"><link rel="prefetch" href="/ab.github.io/assets/js/47.937c2ea0.js"><link rel="prefetch" href="/ab.github.io/assets/js/48.fa7e7f61.js"><link rel="prefetch" href="/ab.github.io/assets/js/49.96bf1057.js"><link rel="prefetch" href="/ab.github.io/assets/js/5.8ebca18a.js"><link rel="prefetch" href="/ab.github.io/assets/js/50.1ae2bdcd.js"><link rel="prefetch" href="/ab.github.io/assets/js/51.674c57ea.js"><link rel="prefetch" href="/ab.github.io/assets/js/52.ff2c7e45.js"><link rel="prefetch" href="/ab.github.io/assets/js/53.be664036.js"><link rel="prefetch" href="/ab.github.io/assets/js/54.8cce7507.js"><link rel="prefetch" href="/ab.github.io/assets/js/55.6b760972.js"><link rel="prefetch" href="/ab.github.io/assets/js/56.6eb6e41e.js"><link rel="prefetch" href="/ab.github.io/assets/js/57.cc28aca1.js"><link rel="prefetch" href="/ab.github.io/assets/js/58.a5492eb6.js"><link rel="prefetch" href="/ab.github.io/assets/js/59.1e08d5bf.js"><link rel="prefetch" href="/ab.github.io/assets/js/6.f27bc905.js"><link rel="prefetch" href="/ab.github.io/assets/js/60.4299be59.js"><link rel="prefetch" href="/ab.github.io/assets/js/61.4ff4a4a1.js"><link rel="prefetch" href="/ab.github.io/assets/js/62.4a407a43.js"><link rel="prefetch" href="/ab.github.io/assets/js/63.40dbafdd.js"><link rel="prefetch" href="/ab.github.io/assets/js/64.e577cce3.js"><link rel="prefetch" href="/ab.github.io/assets/js/65.f23a0806.js"><link rel="prefetch" href="/ab.github.io/assets/js/66.c2281249.js"><link rel="prefetch" href="/ab.github.io/assets/js/67.d9bfcdba.js"><link rel="prefetch" href="/ab.github.io/assets/js/68.f6c5910f.js"><link rel="prefetch" href="/ab.github.io/assets/js/69.b805215c.js"><link rel="prefetch" href="/ab.github.io/assets/js/70.e6f48ea9.js"><link rel="prefetch" href="/ab.github.io/assets/js/71.49b2b9fa.js"><link rel="prefetch" href="/ab.github.io/assets/js/72.c1b4c87b.js"><link rel="prefetch" href="/ab.github.io/assets/js/73.91cc3de6.js"><link rel="prefetch" href="/ab.github.io/assets/js/74.de3696d2.js"><link rel="prefetch" href="/ab.github.io/assets/js/75.0889d39e.js"><link rel="prefetch" href="/ab.github.io/assets/js/76.98af7c96.js"><link rel="prefetch" href="/ab.github.io/assets/js/77.3462e4bb.js"><link rel="prefetch" href="/ab.github.io/assets/js/78.0c79c60b.js"><link rel="prefetch" href="/ab.github.io/assets/js/79.bb060c71.js"><link rel="prefetch" href="/ab.github.io/assets/js/8.e094bf35.js"><link rel="prefetch" href="/ab.github.io/assets/js/80.22e2944b.js"><link rel="prefetch" href="/ab.github.io/assets/js/81.cfe64609.js"><link rel="prefetch" href="/ab.github.io/assets/js/82.66dbbd4c.js"><link rel="prefetch" href="/ab.github.io/assets/js/83.9d57ba33.js"><link rel="prefetch" href="/ab.github.io/assets/js/84.5aeaf95a.js"><link rel="prefetch" href="/ab.github.io/assets/js/85.51211318.js"><link rel="prefetch" href="/ab.github.io/assets/js/86.be4e6bd6.js"><link rel="prefetch" href="/ab.github.io/assets/js/87.a52dcd6b.js"><link rel="prefetch" href="/ab.github.io/assets/js/88.ba5255aa.js"><link rel="prefetch" href="/ab.github.io/assets/js/89.97003e72.js"><link rel="prefetch" href="/ab.github.io/assets/js/9.0d846328.js"><link rel="prefetch" href="/ab.github.io/assets/js/90.198afd43.js"><link rel="prefetch" href="/ab.github.io/assets/js/91.e2a2a69a.js"><link rel="prefetch" href="/ab.github.io/assets/js/92.47d727f5.js"><link rel="prefetch" href="/ab.github.io/assets/js/93.4a2c2610.js"><link rel="prefetch" href="/ab.github.io/assets/js/94.93e55675.js"><link rel="prefetch" href="/ab.github.io/assets/js/95.05fc0e7e.js"><link rel="prefetch" href="/ab.github.io/assets/js/96.7899b613.js"><link rel="prefetch" href="/ab.github.io/assets/js/97.94358d95.js"><link rel="prefetch" href="/ab.github.io/assets/js/98.cce5cc16.js"><link rel="prefetch" href="/ab.github.io/assets/js/99.d24e8b5b.js"><link rel="prefetch" href="/ab.github.io/assets/js/vendors~docsearch.3b52675e.js">
+    <link rel="stylesheet" href="/ab.github.io/assets/css/0.styles.dfda38fb.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container" data-v-7dd95ae2><div data-v-7dd95ae2><div class="password-shadow password-wrapper-out" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>安柏</h3> <p class="description" data-v-59e6cb88>苦厄难磨凌云志，不死终有出头日</p> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2026
+      </a></span></div></div> <div class="hide" data-v-7dd95ae2><header class="navbar" data-v-7dd95ae2><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/ab.github.io/" class="home-link router-link-active"><img src="/ab.github.io/favicon.png" alt="安柏" class="logo"> <span class="site-name">安柏</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <div class="search-box"><i class="iconfont reco-search"></i> <input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/ab.github.io/" class="nav-link"><i class="undefined"></i>
+  首页
+</a></div><div class="nav-item"><a href="/ab.github.io/notes/" class="nav-link router-link-active"><i class="undefined"></i>
+  技术笔记
+</a></div><div class="nav-item"><a href="/ab.github.io/projects/" class="nav-link"><i class="undefined"></i>
+  项目实践
+</a></div><div class="nav-item"><a href="/ab.github.io/archive/" class="nav-link"><i class="undefined"></i>
+  归档
+</a></div><div class="nav-item"><a href="/ab.github.io/about/" class="nav-link"><i class="undefined"></i>
+  关于我
+</a></div><div class="nav-item"><a href="/ab.github.io/admin/" class="nav-link"><i class="undefined"></i>
+  Admin
+</a></div><div class="nav-item"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-7dd95ae2></div> <aside class="sidebar" data-v-7dd95ae2><div class="personal-info-wrapper" data-v-1fad0c41 data-v-7dd95ae2><img src="/ab.github.io/images/avatar.png" alt="author-avatar" class="personal-img" data-v-1fad0c41> <!----> <div class="num" data-v-1fad0c41><div data-v-1fad0c41><h3 data-v-1fad0c41>102</h3> <h6 data-v-1fad0c41>Articles</h6></div> <div data-v-1fad0c41><h3 data-v-1fad0c41>276</h3> <h6 data-v-1fad0c41>Tags</h6></div></div> <ul class="social-links" data-v-1fad0c41></ul> <hr data-v-1fad0c41></div> <nav class="nav-links"><div class="nav-item"><a href="/ab.github.io/" class="nav-link"><i class="undefined"></i>
+  首页
+</a></div><div class="nav-item"><a href="/ab.github.io/notes/" class="nav-link router-link-active"><i class="undefined"></i>
+  技术笔记
+</a></div><div class="nav-item"><a href="/ab.github.io/projects/" class="nav-link"><i class="undefined"></i>
+  项目实践
+</a></div><div class="nav-item"><a href="/ab.github.io/archive/" class="nav-link"><i class="undefined"></i>
+  归档
+</a></div><div class="nav-item"><a href="/ab.github.io/about/" class="nav-link"><i class="undefined"></i>
+  关于我
+</a></div><div class="nav-item"><a href="/ab.github.io/admin/" class="nav-link"><i class="undefined"></i>
+  Admin
+</a></div><div class="nav-item"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="undefined"></i>
+  GitHub
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav> <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>AWD</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>C语言</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>C++</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>密码学</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>致2026届新生</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>后端技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>网络安全</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>PWN</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Python</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/ab.github.io/notes/python-basics-1.html" class="sidebar-link">Python基础速通Ⅰ——环境搭建与第一个程序</a></li><li><a href="/ab.github.io/notes/python-basics-2.html" class="sidebar-link">Python基础速通Ⅱ——列表与元组</a></li><li><a href="/ab.github.io/notes/python-basics-3.html" class="sidebar-link">Python基础速通Ⅲ——字典与集合</a></li><li><a href="/ab.github.io/notes/python-basics-4.html" class="sidebar-link">Python基础速通Ⅳ——字符串与条件循环</a></li><li><a href="/ab.github.io/notes/python-basics-5.html" class="sidebar-link">Python基础速通Ⅴ——综合实战：名片管理系统</a></li><li><a href="/ab.github.io/notes/python-eco-1.html" class="sidebar-link">Python核心生态与落地Ⅰ——NumPy基础</a></li><li><a href="/ab.github.io/notes/python-eco-2.html" class="sidebar-link">Python核心生态与落地Ⅱ——Pandas基础</a></li><li><a href="/ab.github.io/notes/python-eco-3.html" class="sidebar-link">Python核心生态与落地Ⅲ——Matplotlib数据可视化</a></li><li><a href="/ab.github.io/notes/python-eco-4.html" class="sidebar-link">Python核心生态与落地Ⅳ——爬虫实战</a></li><li><a href="/ab.github.io/notes/python-eco-5.html" class="sidebar-link">Python核心生态与落地Ⅴ——数据分析综合实战</a></li><li><a href="/ab.github.io/notes/python-func-1.html" class="sidebar-link">Python函数与高级特性Ⅰ——函数基础</a></li><li><a href="/ab.github.io/notes/python-func-2.html" aria-current="page" class="active sidebar-link">Python函数与高级特性Ⅱ——作用域与闭包</a></li><li><a href="/ab.github.io/notes/python-func-3.html" class="sidebar-link">Python函数与高级特性Ⅲ——lambda与推导式</a></li><li><a href="/ab.github.io/notes/python-func-4.html" class="sidebar-link">Python函数与高级特性Ⅳ——生成器与迭代器</a></li><li><a href="/ab.github.io/notes/python-func-5.html" class="sidebar-link">Python函数与高级特性Ⅴ——装饰器与上下文管理器</a></li><li><a href="/ab.github.io/notes/python-module-1.html" class="sidebar-link">Python模块包与异常Ⅰ——模块基础</a></li><li><a href="/ab.github.io/notes/python-module-2.html" class="sidebar-link">Python模块包与异常Ⅱ——常用标准库</a></li><li><a href="/ab.github.io/notes/python-module-3.html" class="sidebar-link">Python模块包与异常Ⅲ——异常处理基础</a></li><li><a href="/ab.github.io/notes/python-module-4.html" class="sidebar-link">Python模块包与异常Ⅳ——异常处理进阶</a></li><li><a href="/ab.github.io/notes/python-module-5.html" class="sidebar-link">Python模块包与异常Ⅴ——综合实战：工程化项目</a></li><li><a href="/ab.github.io/notes/python-oop-1.html" class="sidebar-link">Python面向对象与魔法方法Ⅰ——类与对象基础</a></li><li><a href="/ab.github.io/notes/python-oop-2.html" class="sidebar-link">Python面向对象与魔法方法Ⅱ——继承与多态</a></li><li><a href="/ab.github.io/notes/python-oop-3.html" class="sidebar-link">Python面向对象与魔法方法Ⅲ——属性管理</a></li><li><a href="/ab.github.io/notes/python-oop-4.html" class="sidebar-link">Python面向对象与魔法方法Ⅳ——魔法方法详解</a></li><li><a href="/ab.github.io/notes/python-oop-5.html" class="sidebar-link">Python面向对象与魔法方法Ⅴ——综合实战：名片系统类版本</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>前端技术</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>漏洞挖掘</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Web安全</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-59e6cb88 data-v-7dd95ae2><h3 class="title" data-v-59e6cb88>Python函数与高级特性Ⅱ——作用域与闭包</h3> <!----> <label id="box" class="inputBox" data-v-59e6cb88><input type="password" value="" data-v-59e6cb88> <span data-v-59e6cb88>Konck! Knock!</span> <button data-v-59e6cb88>OK</button></label> <div class="footer" data-v-59e6cb88><span data-v-59e6cb88><i class="iconfont reco-theme" data-v-59e6cb88></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-59e6cb88>vuePress-theme-reco</a></span> <span data-v-59e6cb88><i class="iconfont reco-copyright" data-v-59e6cb88></i> <a data-v-59e6cb88><!---->
+          
+        <!---->
+        2026
+      </a></span></div></div> <div data-v-7dd95ae2><div data-v-7dd95ae2><main class="page" style="padding-right:0;"><section style="display:;"><div class="page-title"><h1 class="title">Python函数与高级特性Ⅱ——作用域与闭包</h1> <div data-v-8a445198><!----> <i class="iconfont reco-date" data-v-8a445198><span data-v-8a445198>7/26/2026</span></i> <!----> <i class="tags iconfont reco-tag" data-v-8a445198><span class="tag-item" data-v-8a445198>Python</span><span class="tag-item" data-v-8a445198>作用域</span><span class="tag-item" data-v-8a445198>闭包</span><span class="tag-item" data-v-8a445198>global</span><span class="tag-item" data-v-8a445198>nonlocal</span><span class="tag-item" data-v-8a445198>LEGB</span></i></div></div> <div class="theme-reco-content content__default"><h2 id="前言"><a href="#前言" class="header-anchor">#</a> 前言</h2> <p>在上一篇文章中，我们学习了 Python 函数的基础知识：定义、参数、返回值和文档字符串。现在，让我们深入探讨函数内部的工作原理——变量作用域和闭包。这些概念是理解 Python 函数式编程特性的关键。</p> <p>作用域决定了变量在程序中的可见性和生命周期。Python 使用 LEGB 规则（Local、Enclosing、Global、Built-in）来查找变量，理解这个规则对于正确使用变量至关重要。<code>global</code> 和 <code>nonlocal</code> 关键字提供了在嵌套作用域中修改变量的能力，但需要谨慎使用。</p> <p>闭包是 Python 中最强大的函数式编程特性之一。它允许函数&quot;记住&quot;其创建时的环境，即使那个环境已经不存在了。闭包在装饰器、回调函数、工厂函数等场景中有着广泛的应用。理解闭包不仅需要理解作用域，还需要理解函数是一等公民的概念。</p> <h2 id="局部变量与全局变量"><a href="#局部变量与全局变量" class="header-anchor">#</a> 局部变量与全局变量</h2> <h3 id="局部变量"><a href="#局部变量" class="header-anchor">#</a> 局部变量</h3> <p>局部变量是在函数内部定义的变量，只能在函数内部访问。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 局部变量</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;局部变量&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">my_function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 局部变量：只在函数内部可见</span>
+    local_var <span class="token operator">=</span> <span class="token string">&quot;我是局部变量&quot;</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;函数内部：</span><span class="token interpolation"><span class="token punctuation">{</span>local_var<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+my_function<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># print(local_var)  # NameError: name 'local_var' is not defined</span>
+
+<span class="token comment"># 不同函数可以有同名局部变量（互不影响）</span>
+<span class="token keyword">def</span> <span class="token function">func_a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> <span class="token number">10</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;func_a 中的 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">func_b</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> <span class="token number">20</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;func_b 中的 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+func_a<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 10</span>
+func_b<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 20</span>
+
+<span class="token comment"># 函数参数也是局部变量</span>
+<span class="token keyword">def</span> <span class="token function">greet</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;Hello, </span><span class="token interpolation"><span class="token punctuation">{</span>name<span class="token punctuation">}</span></span><span class="token string">!&quot;</span></span><span class="token punctuation">)</span>
+    <span class="token comment"># name 是局部变量，只在 greet 内部可见</span>
+
+greet<span class="token punctuation">(</span><span class="token string">&quot;Alice&quot;</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="全局变量"><a href="#全局变量" class="header-anchor">#</a> 全局变量</h3> <p>全局变量是在模块级别定义的变量，可以在整个模块中访问。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 全局变量</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;全局变量&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 全局变量</span>
+global_var <span class="token operator">=</span> <span class="token string">&quot;我是全局变量&quot;</span>
+PI <span class="token operator">=</span> <span class="token number">3.14159</span>
+MAX_USERS <span class="token operator">=</span> <span class="token number">100</span>
+
+<span class="token keyword">def</span> <span class="token function">read_global</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;读取全局变量（不需要 global 关键字）&quot;&quot;&quot;</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;读取全局变量：</span><span class="token interpolation"><span class="token punctuation">{</span>global_var<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;PI = </span><span class="token interpolation"><span class="token punctuation">{</span>PI<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+read_global<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 在函数内部修改全局变量需要 global 关键字</span>
+counter <span class="token operator">=</span> <span class="token number">0</span>
+
+<span class="token keyword">def</span> <span class="token function">increment_bad</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;错误的做法：这会导致 UnboundLocalError&quot;&quot;&quot;</span>
+    <span class="token comment"># counter += 1  # 这会报错！因为 Python 认为 counter 是局部变量</span>
+    <span class="token keyword">pass</span>
+
+<span class="token keyword">def</span> <span class="token function">increment_good</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;正确的做法：使用 global 关键字&quot;&quot;&quot;</span>
+    <span class="token keyword">global</span> counter
+    counter <span class="token operator">+=</span> <span class="token number">1</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;counter = </span><span class="token interpolation"><span class="token punctuation">{</span>counter<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+increment_good<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 1</span>
+increment_good<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 2</span>
+increment_good<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 3</span>
+
+<span class="token comment"># 读取不需要 global，修改需要 global</span>
+<span class="token keyword">def</span> <span class="token function">read_and_display</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    global_var_value <span class="token operator">=</span> global_var  <span class="token comment"># 读取不需要 global</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;显示：</span><span class="token interpolation"><span class="token punctuation">{</span>global_var_value<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+read_and_display<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="global-关键字的陷阱"><a href="#global-关键字的陷阱" class="header-anchor">#</a> global 关键字的陷阱</h3> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># global 关键字的使用规则</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;global 关键字的使用规则&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+x <span class="token operator">=</span> <span class="token number">100</span>
+
+<span class="token keyword">def</span> <span class="token function">test1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 只读取全局变量，不需要 global</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;test1: x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">test2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 如果尝试修改，Python 会认为 x 是局部变量</span>
+    <span class="token comment"># x = 200  # 如果取消注释，下面的 print(x) 会报错</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;test2: x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">test3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> x
+    x <span class="token operator">=</span> <span class="token number">300</span>  <span class="token comment"># 修改全局变量</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;test3: x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+test1<span class="token punctuation">(</span><span class="token punctuation">)</span>
+test2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+test3<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;全局 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 300</span>
+
+<span class="token comment"># 在函数中定义全局变量</span>
+<span class="token keyword">def</span> <span class="token function">create_global</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> new_global
+    new_global <span class="token operator">=</span> <span class="token string">&quot;我在函数中创建的全局变量&quot;</span>
+
+create_global<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;new_global = </span><span class="token interpolation"><span class="token punctuation">{</span>new_global<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 全局变量的最佳实践</span>
+<span class="token comment"># 1. 尽量减少全局变量的使用</span>
+<span class="token comment"># 2. 使用大写命名常量</span>
+<span class="token comment"># 3. 考虑使用类或配置对象替代全局变量</span>
+</code></pre></div><h2 id="legb-规则"><a href="#legb-规则" class="header-anchor">#</a> LEGB 规则</h2> <p>LEGB 是 Python 查找变量名的顺序规则：Local -&gt; Enclosing -&gt; Global -&gt; Built-in。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># LEGB 规则详解</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;LEGB 规则&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Built-in（内置作用域）</span>
+<span class="token comment"># Python 内置的函数和变量，如 print, len, True, False</span>
+
+<span class="token comment"># Global（全局作用域）</span>
+<span class="token comment"># 模块级别定义的变量</span>
+module_var <span class="token operator">=</span> <span class="token string">&quot;Global&quot;</span>
+
+<span class="token keyword">def</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Enclosing（封闭作用域）</span>
+    <span class="token comment"># 外部函数的局部变量</span>
+    enclosing_var <span class="token operator">=</span> <span class="token string">&quot;Enclosing&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># Local（局部作用域）</span>
+        <span class="token comment"># 内部函数的局部变量</span>
+        local_var <span class="token operator">=</span> <span class="token string">&quot;Local&quot;</span>
+        
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;Local: </span><span class="token interpolation"><span class="token punctuation">{</span>local_var<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;Enclosing: </span><span class="token interpolation"><span class="token punctuation">{</span>enclosing_var<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;Global: </span><span class="token interpolation"><span class="token punctuation">{</span>module_var<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;Built-in: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">len</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># len 是内置函数</span>
+    
+    inner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+outer<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># LEGB 查找顺序演示</span>
+x <span class="token operator">=</span> <span class="token string">&quot;Global x&quot;</span>
+
+<span class="token keyword">def</span> <span class="token function">outer_func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> <span class="token string">&quot;Enclosing x&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">inner_func</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        x <span class="token operator">=</span> <span class="token string">&quot;Local x&quot;</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;inner_func 中的 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># Local x</span>
+    
+    inner_func<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;outer_func 中的 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># Enclosing x</span>
+
+outer_func<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;模块中的 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># Global x</span>
+
+<span class="token comment"># 如果注释掉局部定义，会向上查找</span>
+<span class="token keyword">def</span> <span class="token function">outer_func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> <span class="token string">&quot;Enclosing x&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">inner_func2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># 没有局部 x，查找 Enclosing</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;inner_func2 中的 x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># Enclosing x</span>
+    
+    inner_func2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+outer_func2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 如果所有层级都没有，查找 Built-in</span>
+<span class="token keyword">def</span> <span class="token function">use_builtin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># print 是内置函数，在 LEGB 的 B 层</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;使用内置函数 print&quot;</span><span class="token punctuation">)</span>
+
+use_builtin<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="legb-规则的深入理解"><a href="#legb-规则的深入理解" class="header-anchor">#</a> LEGB 规则的深入理解</h3> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># LEGB 深入理解</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;LEGB 深入理解&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 当你在函数中赋值一个变量时，Python 默认在局部作用域创建它</span>
+<span class="token comment"># 除非你使用 global 或 nonlocal 声明</span>
+
+y <span class="token operator">=</span> <span class="token number">10</span>
+
+<span class="token keyword">def</span> <span class="token function">modify_local</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y <span class="token operator">=</span> <span class="token number">20</span>  <span class="token comment"># 创建局部变量 y，不影响全局 y</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;modify_local: y = </span><span class="token interpolation"><span class="token punctuation">{</span>y<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+modify_local<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;全局: y = </span><span class="token interpolation"><span class="token punctuation">{</span>y<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 仍然是 10</span>
+
+<span class="token comment"># 有趣的情况：引用和赋值的区别</span>
+my_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">modify_list</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 这是修改对象的内容，不是重新赋值</span>
+    my_list<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;modify_list: my_list = </span><span class="token interpolation"><span class="token punctuation">{</span>my_list<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+modify_list<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;全局: my_list = </span><span class="token interpolation"><span class="token punctuation">{</span>my_list<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># [1, 2, 3, 4]</span>
+
+<span class="token keyword">def</span> <span class="token function">reassign_list</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 这是重新赋值，创建局部变量</span>
+    my_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;reassign_list: my_list = </span><span class="token interpolation"><span class="token punctuation">{</span>my_list<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+reassign_list<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;全局: my_list = </span><span class="token interpolation"><span class="token punctuation">{</span>my_list<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># [1, 2, 3, 4]（没变）</span>
+
+<span class="token comment"># 查看当前作用域中的变量</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n当前作用域中的变量：&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;locals(): </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token punctuation">[</span>k <span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">locals</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">if</span> <span class="token keyword">not</span> k<span class="token punctuation">.</span>startswith<span class="token punctuation">(</span><span class="token string">'_'</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;globals() 中的自定义变量：</span><span class="token interpolation"><span class="token punctuation">{</span><span class="token punctuation">[</span>k <span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">globals</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">if</span> <span class="token keyword">not</span> k<span class="token punctuation">.</span>startswith<span class="token punctuation">(</span><span class="token string">'_'</span><span class="token punctuation">)</span> <span class="token keyword">and</span> k<span class="token punctuation">.</span>islower<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="nonlocal-关键字"><a href="#nonlocal-关键字" class="header-anchor">#</a> nonlocal 关键字</h2> <p><code>nonlocal</code> 用于在嵌套函数中修改封闭作用域（Enclosing）的变量。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># nonlocal 关键字</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;nonlocal 关键字&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    count <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment"># 封闭作用域的变量</span>
+    
+    <span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># 使用 nonlocal 修改封闭作用域的变量</span>
+        <span class="token keyword">nonlocal</span> count
+        count <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">return</span> count
+    
+    <span class="token keyword">return</span> inner
+
+counter <span class="token operator">=</span> outer<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;counter() = </span><span class="token interpolation"><span class="token punctuation">{</span>counter<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 1</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;counter() = </span><span class="token interpolation"><span class="token punctuation">{</span>counter<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 2</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;counter() = </span><span class="token interpolation"><span class="token punctuation">{</span>counter<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 3</span>
+
+<span class="token comment"># 没有 nonlocal 的情况</span>
+<span class="token keyword">def</span> <span class="token function">outer_no_nonlocal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    count <span class="token operator">=</span> <span class="token number">0</span>
+    
+    <span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># count += 1  # UnboundLocalError!</span>
+        <span class="token comment"># 因为 Python 认为 count 是局部变量</span>
+        <span class="token keyword">return</span> count
+    
+    <span class="token keyword">return</span> inner
+
+<span class="token comment"># nonlocal 与 global 的区别</span>
+global_var <span class="token operator">=</span> <span class="token number">0</span>
+
+<span class="token keyword">def</span> <span class="token function">outer_with_global</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    local_var <span class="token operator">=</span> <span class="token number">0</span>
+    
+    <span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">global</span> global_var      <span class="token comment"># 修改全局变量</span>
+        <span class="token keyword">nonlocal</span> local_var     <span class="token comment"># 修改封闭作用域变量</span>
+        <span class="token comment"># global_var += 1 和 local_var += 1 都需要声明</span>
+        
+        <span class="token comment"># 注意：nonlocal 和 global 不能同时用于同一个变量</span>
+    
+    inner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 多层嵌套中的 nonlocal</span>
+<span class="token keyword">def</span> <span class="token function">level1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> <span class="token string">&quot;level1&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">level2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        x <span class="token operator">=</span> <span class="token string">&quot;level2&quot;</span>
+        
+        <span class="token keyword">def</span> <span class="token function">level3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">nonlocal</span> x  <span class="token comment"># 修改 level2 的 x，不是 level1 的</span>
+            x <span class="token operator">=</span> <span class="token string">&quot;level3_modified&quot;</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;level3: x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+        
+        level3<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;level2: x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># level3_modified</span>
+    
+    level2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;level1: x = </span><span class="token interpolation"><span class="token punctuation">{</span>x<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># level1（没变）</span>
+
+level1<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 实际应用：计数器工厂</span>
+<span class="token keyword">def</span> <span class="token function">make_counter</span><span class="token punctuation">(</span>start<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> step<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;创建计数器函数&quot;&quot;&quot;</span>
+    count <span class="token operator">=</span> start
+    
+    <span class="token keyword">def</span> <span class="token function">counter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">nonlocal</span> count
+        current <span class="token operator">=</span> count
+        count <span class="token operator">+=</span> step
+        <span class="token keyword">return</span> current
+    
+    <span class="token keyword">return</span> counter
+
+counter1 <span class="token operator">=</span> make_counter<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+counter2 <span class="token operator">=</span> make_counter<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;\n计数器测试：&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;counter1: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token punctuation">[</span>counter1<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;counter2: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token punctuation">[</span>counter2<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">for</span> _ <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+</code></pre></div><p><code>nonlocal</code> 关键字在 Python 3 中引入，解决了 Python 2 中无法在嵌套函数中修改外部变量的问题。它只影响最近的封闭作用域，不会跨越到全局作用域。</p> <h2 id="闭包-closure"><a href="#闭包-closure" class="header-anchor">#</a> 闭包（Closure）</h2> <h3 id="闭包的概念"><a href="#闭包的概念" class="header-anchor">#</a> 闭包的概念</h3> <p>闭包是指一个函数&quot;记住&quot;了其创建时的环境，即使该环境已经不存在了。闭包由函数和其引用的自由变量组成。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 闭包的概念</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;闭包（Closure）&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">make_multiplier</span><span class="token punctuation">(</span>factor<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;创建一个乘法器函数&quot;&quot;&quot;</span>
+    <span class="token comment"># factor 是自由变量（在闭包中）</span>
+    <span class="token keyword">def</span> <span class="token function">multiplier</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> x <span class="token operator">*</span> factor
+    <span class="token keyword">return</span> multiplier
+
+<span class="token comment"># 创建不同的乘法器</span>
+double <span class="token operator">=</span> make_multiplier<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+triple <span class="token operator">=</span> make_multiplier<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+times_10 <span class="token operator">=</span> make_multiplier<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;double(5) = </span><span class="token interpolation"><span class="token punctuation">{</span>double<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>     <span class="token comment"># 10</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;triple(5) = </span><span class="token interpolation"><span class="token punctuation">{</span>triple<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>     <span class="token comment"># 15</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;times_10(5) = </span><span class="token interpolation"><span class="token punctuation">{</span>times_10<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 50</span>
+
+<span class="token comment"># 每个闭包有自己独立的 factor 值</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;\ndouble 的 factor: </span><span class="token interpolation"><span class="token punctuation">{</span>double<span class="token punctuation">.</span>__closure__<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>cell_contents<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;triple 的 factor: </span><span class="token interpolation"><span class="token punctuation">{</span>triple<span class="token punctuation">.</span>__closure__<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>cell_contents<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;times_10 的 factor: </span><span class="token interpolation"><span class="token punctuation">{</span>times_10<span class="token punctuation">.</span>__closure__<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>cell_contents<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+</code></pre></div><p>每个闭包函数对象都有一个 <code>__closure__</code> 属性，它是一个元组，包含闭包引用的自由变量的 <code>cell</code> 对象。通过 <code>cell_contents</code> 属性可以访问这些值。</p> <h3 id="闭包的条件"><a href="#闭包的条件" class="header-anchor">#</a> 闭包的条件</h3> <p>要形成闭包，需要满足三个条件：</p> <ol><li>有嵌套函数（内部函数定义在外部函数中）</li> <li>内部函数引用了外部函数的变量</li> <li>外部函数返回了内部函数</li></ol> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 闭包的三个条件</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;闭包的形成条件&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 条件1：嵌套函数</span>
+<span class="token keyword">def</span> <span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+    <span class="token keyword">return</span> inner
+<span class="token comment"># 这还不是闭包，因为 inner 没有引用 outer 的变量</span>
+
+<span class="token comment"># 条件2：内部函数引用外部变量</span>
+<span class="token keyword">def</span> <span class="token function">outer2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    msg <span class="token operator">=</span> <span class="token string">&quot;Hello&quot;</span>
+    <span class="token keyword">def</span> <span class="token function">inner2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span>  <span class="token comment"># 引用了外部变量 msg</span>
+    <span class="token keyword">return</span> inner2
+<span class="token comment"># 这是闭包！</span>
+
+func <span class="token operator">=</span> outer2<span class="token punctuation">(</span><span class="token punctuation">)</span>
+func<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># Hello</span>
+
+<span class="token comment"># 闭包中的变量是&quot;活的&quot;</span>
+<span class="token keyword">def</span> <span class="token function">outer_with_list</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    items <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">add_item</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        items<span class="token punctuation">.</span>append<span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> items
+    
+    <span class="token keyword">return</span> add_item
+
+add <span class="token operator">=</span> outer_with_list<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;add('a') = </span><span class="token interpolation"><span class="token punctuation">{</span>add<span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># ['a']</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;add('b') = </span><span class="token interpolation"><span class="token punctuation">{</span>add<span class="token punctuation">(</span><span class="token string">'b'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># ['a', 'b']</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;add('c') = </span><span class="token interpolation"><span class="token punctuation">{</span>add<span class="token punctuation">(</span><span class="token string">'c'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># ['a', 'b', 'c']</span>
+
+<span class="token comment"># 闭包内容检查</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;\nadd 的闭包内容：</span><span class="token interpolation"><span class="token punctuation">{</span>add<span class="token punctuation">.</span>__closure__<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>cell_contents<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="闭包的常见陷阱"><a href="#闭包的常见陷阱" class="header-anchor">#</a> 闭包的常见陷阱</h3> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 闭包的常见陷阱</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;闭包的常见陷阱&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 陷阱1：循环中的闭包</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;陷阱1：循环中的闭包&quot;</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 错误的方式</span>
+<span class="token keyword">def</span> <span class="token function">create_multipliers_wrong</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    multipliers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">def</span> <span class="token function">multiplier</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> x <span class="token operator">*</span> i
+        multipliers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>multiplier<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> multipliers
+
+<span class="token comment"># 所有 multiplier 都使用最后一个 i 值（3）</span>
+funcs <span class="token operator">=</span> create_multipliers_wrong<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[0](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 15（期望 5）</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[1](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 15（期望 10）</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[2](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 15（期望 15）</span>
+
+<span class="token comment"># 正确的方式：使用默认参数&quot;冻结&quot;值</span>
+<span class="token keyword">def</span> <span class="token function">create_multipliers_right</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    multipliers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">def</span> <span class="token function">multiplier</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> factor<span class="token operator">=</span>i<span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment"># 默认参数在定义时计算</span>
+            <span class="token keyword">return</span> x <span class="token operator">*</span> factor
+        multipliers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>multiplier<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> multipliers
+
+funcs <span class="token operator">=</span> create_multipliers_right<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  正确方式：&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[0](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 5</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[1](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 10</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[2](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 15</span>
+
+<span class="token comment"># 另一种正确方式：使用工厂函数</span>
+<span class="token keyword">def</span> <span class="token function">make_multiplier</span><span class="token punctuation">(</span>factor<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token keyword">lambda</span> x<span class="token punctuation">:</span> x <span class="token operator">*</span> factor
+
+funcs <span class="token operator">=</span> <span class="token punctuation">[</span>make_multiplier<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  工厂函数方式：&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[0](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 5</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[1](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 10</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  funcs[2](5) = </span><span class="token interpolation"><span class="token punctuation">{</span>funcs<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>  <span class="token comment"># 15</span>
+</code></pre></div><p>循环中的闭包陷阱是 Python 中最常见的问题之一。问题在于闭包捕获的是变量本身，而不是变量的值。当循环结束后，变量 <code>i</code> 的值是最后一次迭代的值。使用默认参数或工厂函数可以解决这个问题。</p> <h3 id="闭包的应用场景"><a href="#闭包的应用场景" class="header-anchor">#</a> 闭包的应用场景</h3> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 闭包的应用场景</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;闭包的应用场景&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 场景1：数据隐藏（私有变量）</span>
+<span class="token keyword">def</span> <span class="token function">create_bank_account</span><span class="token punctuation">(</span>initial_balance<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;创建银行账户（闭包实现私有变量）&quot;&quot;&quot;</span>
+    balance <span class="token operator">=</span> initial_balance
+    
+    <span class="token keyword">def</span> <span class="token function">deposit</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">nonlocal</span> balance
+        <span class="token keyword">if</span> amount <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            balance <span class="token operator">+=</span> amount
+            <span class="token keyword">return</span> <span class="token string-interpolation"><span class="token string">f&quot;存入 </span><span class="token interpolation"><span class="token punctuation">{</span>amount<span class="token punctuation">}</span></span><span class="token string">，余额：</span><span class="token interpolation"><span class="token punctuation">{</span>balance<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span>
+        <span class="token keyword">return</span> <span class="token string">&quot;存款金额必须为正数&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">withdraw</span><span class="token punctuation">(</span>amount<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">nonlocal</span> balance
+        <span class="token keyword">if</span> <span class="token number">0</span> <span class="token operator">&lt;</span> amount <span class="token operator">&lt;=</span> balance<span class="token punctuation">:</span>
+            balance <span class="token operator">-=</span> amount
+            <span class="token keyword">return</span> <span class="token string-interpolation"><span class="token string">f&quot;取出 </span><span class="token interpolation"><span class="token punctuation">{</span>amount<span class="token punctuation">}</span></span><span class="token string">，余额：</span><span class="token interpolation"><span class="token punctuation">{</span>balance<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span>
+        <span class="token keyword">return</span> <span class="token string">&quot;余额不足或金额无效&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_balance</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> balance
+    
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;deposit&quot;</span><span class="token punctuation">:</span> deposit<span class="token punctuation">,</span>
+        <span class="token string">&quot;withdraw&quot;</span><span class="token punctuation">:</span> withdraw<span class="token punctuation">,</span>
+        <span class="token string">&quot;get_balance&quot;</span><span class="token punctuation">:</span> get_balance<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+
+account <span class="token operator">=</span> create_bank_account<span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;初始余额：</span><span class="token interpolation"><span class="token punctuation">{</span>account<span class="token punctuation">[</span><span class="token string">'get_balance'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>account<span class="token punctuation">[</span><span class="token string">'deposit'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>account<span class="token punctuation">[</span><span class="token string">'withdraw'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;当前余额：</span><span class="token interpolation"><span class="token punctuation">{</span>account<span class="token punctuation">[</span><span class="token string">'get_balance'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token comment"># balance 变量无法从外部直接访问</span>
+
+<span class="token comment"># 场景2：缓存/记忆化</span>
+<span class="token keyword">def</span> <span class="token function">memoize</span><span class="token punctuation">(</span>func<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;缓存函数结果的装饰器&quot;&quot;&quot;</span>
+    cache <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    
+    <span class="token keyword">def</span> <span class="token function">wrapper</span><span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> args <span class="token keyword">not</span> <span class="token keyword">in</span> cache<span class="token punctuation">:</span>
+            cache<span class="token punctuation">[</span>args<span class="token punctuation">]</span> <span class="token operator">=</span> func<span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> cache<span class="token punctuation">[</span>args<span class="token punctuation">]</span>
+    
+    <span class="token keyword">return</span> wrapper
+
+<span class="token comment"># 使用闭包实现斐波那契数列的缓存</span>
+<span class="token decorator annotation punctuation">@memoize</span>
+<span class="token keyword">def</span> <span class="token function">fibonacci</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> n <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> n
+    <span class="token keyword">return</span> fibonacci<span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> fibonacci<span class="token punctuation">(</span>n <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;\n斐波那契（带缓存）：&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  fib(</span><span class="token interpolation"><span class="token punctuation">{</span>i<span class="token punctuation">}</span></span><span class="token string">) = </span><span class="token interpolation"><span class="token punctuation">{</span>fibonacci<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 场景3：回调函数</span>
+<span class="token keyword">def</span> <span class="token function">create_callback</span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> count<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;创建带有预设参数的回调函数&quot;&quot;&quot;</span>
+    calls <span class="token operator">=</span> <span class="token number">0</span>
+    
+    <span class="token keyword">def</span> <span class="token function">callback</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">nonlocal</span> calls
+        calls <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword">if</span> calls <span class="token operator">&lt;=</span> count<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;</span><span class="token interpolation"><span class="token punctuation">{</span>message<span class="token punctuation">}</span></span><span class="token string"> (第 </span><span class="token interpolation"><span class="token punctuation">{</span>calls<span class="token punctuation">}</span></span><span class="token string"> 次)&quot;</span></span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;回调已失效（最多 </span><span class="token interpolation"><span class="token punctuation">{</span>count<span class="token punctuation">}</span></span><span class="token string"> 次）&quot;</span></span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> callback
+
+cb <span class="token operator">=</span> create_callback<span class="token punctuation">(</span><span class="token string">&quot;Hello, World!&quot;</span><span class="token punctuation">,</span> count<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;\n回调测试：&quot;</span></span><span class="token punctuation">)</span>
+cb<span class="token punctuation">(</span><span class="token punctuation">)</span>
+cb<span class="token punctuation">(</span><span class="token punctuation">)</span>
+cb<span class="token punctuation">(</span><span class="token punctuation">)</span>
+cb<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 超过次数，失效</span>
+
+<span class="token comment"># 场景4：配置工厂</span>
+<span class="token keyword">def</span> <span class="token function">create_config</span><span class="token punctuation">(</span>env<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;创建不同环境的配置&quot;&quot;&quot;</span>
+    defaults <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;dev&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">&quot;debug&quot;</span><span class="token punctuation">:</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string">&quot;port&quot;</span><span class="token punctuation">:</span> <span class="token number">8080</span><span class="token punctuation">,</span> <span class="token string">&quot;host&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;localhost&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;prod&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">&quot;debug&quot;</span><span class="token punctuation">:</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">&quot;port&quot;</span><span class="token punctuation">:</span> <span class="token number">80</span><span class="token punctuation">,</span> <span class="token string">&quot;host&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;0.0.0.0&quot;</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    config <span class="token operator">=</span> defaults<span class="token punctuation">.</span>get<span class="token punctuation">(</span>env<span class="token punctuation">,</span> defaults<span class="token punctuation">[</span><span class="token string">&quot;dev&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_config</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> default<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> config<span class="token punctuation">.</span>get<span class="token punctuation">(</span>key<span class="token punctuation">,</span> default<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">set_config</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        config<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> value
+    
+    <span class="token keyword">def</span> <span class="token function">all_config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">dict</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> get_config<span class="token punctuation">,</span> set_config<span class="token punctuation">,</span> all_config
+
+dev_get<span class="token punctuation">,</span> dev_set<span class="token punctuation">,</span> dev_all <span class="token operator">=</span> create_config<span class="token punctuation">(</span><span class="token string">&quot;dev&quot;</span><span class="token punctuation">)</span>
+prod_get<span class="token punctuation">,</span> prod_set<span class="token punctuation">,</span> prod_all <span class="token operator">=</span> create_config<span class="token punctuation">(</span><span class="token string">&quot;prod&quot;</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;\n开发环境配置：</span><span class="token interpolation"><span class="token punctuation">{</span>dev_all<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;生产环境配置：</span><span class="token interpolation"><span class="token punctuation">{</span>prod_all<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="综合实战-权限验证系统"><a href="#综合实战-权限验证系统" class="header-anchor">#</a> 综合实战：权限验证系统</h2> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 综合实战：基于闭包的权限验证系统</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;综合实战：权限验证系统&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;=&quot;</span> <span class="token operator">*</span> <span class="token number">60</span><span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">create_auth_system</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">&quot;&quot;&quot;创建权限验证系统&quot;&quot;&quot;</span>
+    <span class="token comment"># 用户数据库（闭包中的私有数据）</span>
+    users <span class="token operator">=</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;admin&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">&quot;password&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;admin123&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;roles&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;admin&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;user&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;alice&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">&quot;password&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;alice123&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;roles&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;user&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">&quot;bob&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token string">&quot;password&quot;</span><span class="token punctuation">:</span> <span class="token string">&quot;bob123&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;roles&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">&quot;user&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;editor&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token comment"># 当前登录用户</span>
+    current_user <span class="token operator">=</span> <span class="token boolean">None</span>
+    
+    <span class="token keyword">def</span> <span class="token function">login</span><span class="token punctuation">(</span>username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;登录&quot;&quot;&quot;</span>
+        <span class="token keyword">nonlocal</span> current_user
+        <span class="token keyword">if</span> username <span class="token keyword">in</span> users <span class="token keyword">and</span> users<span class="token punctuation">[</span>username<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">&quot;password&quot;</span><span class="token punctuation">]</span> <span class="token operator">==</span> password<span class="token punctuation">:</span>
+            current_user <span class="token operator">=</span> username
+            <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f&quot;欢迎，</span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string">！&quot;</span></span>
+        <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">&quot;用户名或密码错误&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;登出&quot;&quot;&quot;</span>
+        <span class="token keyword">nonlocal</span> current_user
+        <span class="token keyword">if</span> current_user<span class="token punctuation">:</span>
+            username <span class="token operator">=</span> current_user
+            current_user <span class="token operator">=</span> <span class="token boolean">None</span>
+            <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f&quot;</span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string"> 已登出&quot;</span></span>
+        <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">&quot;当前没有用户登录&quot;</span>
+    
+    <span class="token keyword">def</span> <span class="token function">get_current_user</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;获取当前用户&quot;&quot;&quot;</span>
+        <span class="token keyword">return</span> current_user
+    
+    <span class="token keyword">def</span> <span class="token function">has_role</span><span class="token punctuation">(</span>role<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;检查当前用户是否有指定角色&quot;&quot;&quot;</span>
+        <span class="token keyword">if</span> current_user <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span>
+        <span class="token keyword">return</span> role <span class="token keyword">in</span> users<span class="token punctuation">[</span>current_user<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">&quot;roles&quot;</span><span class="token punctuation">]</span>
+    
+    <span class="token keyword">def</span> <span class="token function">require_role</span><span class="token punctuation">(</span>role<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;闭包：创建需要特定角色的装饰器&quot;&quot;&quot;</span>
+        <span class="token keyword">def</span> <span class="token function">decorator</span><span class="token punctuation">(</span>func<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">def</span> <span class="token function">wrapper</span><span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> <span class="token keyword">not</span> has_role<span class="token punctuation">(</span>role<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;权限不足：需要 </span><span class="token interpolation"><span class="token punctuation">{</span>role<span class="token punctuation">}</span></span><span class="token string"> 角色&quot;</span></span><span class="token punctuation">)</span>
+                    <span class="token keyword">return</span> <span class="token boolean">None</span>
+                <span class="token keyword">return</span> func<span class="token punctuation">(</span><span class="token operator">*</span>args<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span>
+            <span class="token keyword">return</span> wrapper
+        <span class="token keyword">return</span> decorator
+    
+    <span class="token keyword">def</span> <span class="token function">add_user</span><span class="token punctuation">(</span>username<span class="token punctuation">,</span> password<span class="token punctuation">,</span> roles<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;添加用户（需要 admin 角色）&quot;&quot;&quot;</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> has_role<span class="token punctuation">(</span><span class="token string">&quot;admin&quot;</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">&quot;权限不足：需要 admin 角色&quot;</span>
+        <span class="token keyword">if</span> username <span class="token keyword">in</span> users<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f&quot;用户 </span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string"> 已存在&quot;</span></span>
+        users<span class="token punctuation">[</span>username<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">&quot;password&quot;</span><span class="token punctuation">:</span> password<span class="token punctuation">,</span> <span class="token string">&quot;roles&quot;</span><span class="token punctuation">:</span> roles<span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token string-interpolation"><span class="token string">f&quot;用户 </span><span class="token interpolation"><span class="token punctuation">{</span>username<span class="token punctuation">}</span></span><span class="token string"> 已添加&quot;</span></span>
+    
+    <span class="token keyword">def</span> <span class="token function">list_users</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">&quot;&quot;&quot;列出所有用户（需要 admin 角色）&quot;&quot;&quot;</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> has_role<span class="token punctuation">(</span><span class="token string">&quot;admin&quot;</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token string">&quot;权限不足&quot;</span>
+        <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span><span class="token string">&quot;username&quot;</span><span class="token punctuation">:</span> u<span class="token punctuation">,</span> <span class="token string">&quot;roles&quot;</span><span class="token punctuation">:</span> info<span class="token punctuation">[</span><span class="token string">&quot;roles&quot;</span><span class="token punctuation">]</span><span class="token punctuation">}</span>
+            <span class="token keyword">for</span> u<span class="token punctuation">,</span> info <span class="token keyword">in</span> users<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">]</span>
+    
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token string">&quot;login&quot;</span><span class="token punctuation">:</span> login<span class="token punctuation">,</span>
+        <span class="token string">&quot;logout&quot;</span><span class="token punctuation">:</span> logout<span class="token punctuation">,</span>
+        <span class="token string">&quot;get_current_user&quot;</span><span class="token punctuation">:</span> get_current_user<span class="token punctuation">,</span>
+        <span class="token string">&quot;has_role&quot;</span><span class="token punctuation">:</span> has_role<span class="token punctuation">,</span>
+        <span class="token string">&quot;require_role&quot;</span><span class="token punctuation">:</span> require_role<span class="token punctuation">,</span>
+        <span class="token string">&quot;add_user&quot;</span><span class="token punctuation">:</span> add_user<span class="token punctuation">,</span>
+        <span class="token string">&quot;list_users&quot;</span><span class="token punctuation">:</span> list_users<span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+
+
+<span class="token comment"># 测试权限系统</span>
+auth <span class="token operator">=</span> create_auth_system<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 尝试无权限操作</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;未登录状态：&quot;</span><span class="token punctuation">)</span>
+success<span class="token punctuation">,</span> result <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;list_users&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  list_users: success=</span><span class="token interpolation"><span class="token punctuation">{</span>success<span class="token punctuation">}</span></span><span class="token string">, result=</span><span class="token interpolation"><span class="token punctuation">{</span>result<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 普通用户登录</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n普通用户登录：&quot;</span><span class="token punctuation">)</span>
+success<span class="token punctuation">,</span> msg <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;login&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">&quot;alice&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;alice123&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  </span><span class="token interpolation"><span class="token punctuation">{</span>msg<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  当前用户：</span><span class="token interpolation"><span class="token punctuation">{</span>auth<span class="token punctuation">[</span><span class="token string">'get_current_user'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  是否有 admin 角色：</span><span class="token interpolation"><span class="token punctuation">{</span>auth<span class="token punctuation">[</span><span class="token string">'has_role'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">'admin'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  是否有 user 角色：</span><span class="token interpolation"><span class="token punctuation">{</span>auth<span class="token punctuation">[</span><span class="token string">'has_role'</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">'user'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 登出</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n登出：&quot;</span><span class="token punctuation">)</span>
+success<span class="token punctuation">,</span> msg <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;logout&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  </span><span class="token interpolation"><span class="token punctuation">{</span>msg<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 管理员登录</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n管理员登录：&quot;</span><span class="token punctuation">)</span>
+success<span class="token punctuation">,</span> msg <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;login&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">&quot;admin&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;admin123&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  </span><span class="token interpolation"><span class="token punctuation">{</span>msg<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 管理员操作</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n管理员操作：&quot;</span><span class="token punctuation">)</span>
+success<span class="token punctuation">,</span> result <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;add_user&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">&quot;charlie&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;charlie123&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">&quot;user&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;  add_user: </span><span class="token interpolation"><span class="token punctuation">{</span>result<span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+success<span class="token punctuation">,</span> users <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;list_users&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> success<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;  用户列表：&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> u <span class="token keyword">in</span> users<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f&quot;    </span><span class="token interpolation"><span class="token punctuation">{</span>u<span class="token punctuation">[</span><span class="token string">'username'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">: </span><span class="token interpolation"><span class="token punctuation">{</span>u<span class="token punctuation">[</span><span class="token string">'roles'</span><span class="token punctuation">]</span><span class="token punctuation">}</span></span><span class="token string">&quot;</span></span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用 require_role 装饰器</span>
+require_admin <span class="token operator">=</span> auth<span class="token punctuation">[</span><span class="token string">&quot;require_role&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">&quot;admin&quot;</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@require_admin</span>
+<span class="token keyword">def</span> <span class="token function">delete_all_data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;  所有数据已删除！&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token boolean">True</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n管理员执行删除操作：&quot;</span><span class="token punctuation">)</span>
+delete_all_data<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+auth<span class="token punctuation">[</span><span class="token string">&quot;logout&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+auth<span class="token punctuation">[</span><span class="token string">&quot;login&quot;</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token string">&quot;alice&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;alice123&quot;</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">&quot;\n普通用户执行删除操作：&quot;</span><span class="token punctuation">)</span>
+delete_all_data<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># 权限不足</span>
+</code></pre></div><p>这个权限验证系统展示了闭包的强大应用。<code>users</code> 字典和 <code>current_user</code> 变量是私有的，外部代码无法直接访问或修改它们，只能通过提供的接口进行操作。<code>require_role</code> 函数返回一个装饰器，该装饰器本身是一个闭包，捕获了 <code>role</code> 参数。</p> <h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <p>本文深入探讨了 Python 中的作用域和闭包机制：</p> <p><strong>局部变量与全局变量</strong>：局部变量在函数内部定义，只在函数内部可见。全局变量在模块级别定义，可以在整个模块中访问。修改全局变量需要使用 <code>global</code> 关键字。</p> <p><strong>LEGB 规则</strong>：Python 按照 Local -&gt; Enclosing -&gt; Global -&gt; Built-in 的顺序查找变量名。理解这个规则对于正确使用变量至关重要。</p> <p><strong>global 关键字</strong>：用于在函数内部声明要修改全局变量。读取全局变量不需要 <code>global</code>，但修改需要。</p> <p><strong>nonlocal 关键字</strong>：用于在嵌套函数中修改封闭作用域（Enclosing）的变量。它只影响最近的封闭作用域。</p> <p><strong>闭包</strong>：由函数和其引用的自由变量组成。闭包需要三个条件：嵌套函数、内部函数引用外部变量、外部函数返回内部函数。闭包中的变量是&quot;活的&quot;，在闭包的生命周期中持续存在。</p> <p><strong>闭包的应用</strong>：</p> <ul><li>数据隐藏（私有变量）</li> <li>缓存/记忆化</li> <li>回调函数</li> <li>配置工厂</li> <li>装饰器（下一篇文章会详细介绍）</li></ul> <p>在下一篇文章中，我们将学习 lambda 表达式和推导式——Python 中函数式编程的另外两个核心工具。</p></div></section> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev"><a href="/ab.github.io/notes/python-func-1.html" class="prev">
+          Python函数与高级特性Ⅰ——函数基础
+        </a></span> <span class="next"><a href="/ab.github.io/notes/python-func-3.html">
+          Python函数与高级特性Ⅲ——lambda与推导式
+        </a></span></p></div> <div class="comments-wrapper"><!----></div></main></div> <!----></div> <ul class="sub-sidebar sub-sidebar-wrapper" style="width:0;" data-v-b57cc07c data-v-7dd95ae2></ul></div></div></div><div class="global-ui"><div class="back-to-ceiling" style="right:1rem;bottom:6rem;width:2.5rem;height:2.5rem;border-radius:.25rem;line-height:2.5rem;display:none;" data-v-c6073ba8 data-v-c6073ba8><svg t="1574745035067" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5404" class="icon" data-v-c6073ba8><path d="M526.60727968 10.90185116a27.675 27.675 0 0 0-29.21455937 0c-131.36607665 82.28402758-218.69155461 228.01873535-218.69155402 394.07834331a462.20625001 462.20625001 0 0 0 5.36959153 69.94390903c1.00431239 6.55289093-0.34802892 13.13561351-3.76865779 18.80351572-32.63518765 54.11355614-51.75690182 118.55860487-51.7569018 187.94566865a371.06718723 371.06718723 0 0 0 11.50484808 91.98906777c6.53300375 25.50556257 41.68394495 28.14064038 52.69160883 4.22606766 17.37162448-37.73630017 42.14135425-72.50938081 72.80769204-103.21549295 2.18761121 3.04276886 4.15646224 6.24463696 6.40373557 9.22774369a1871.4375 1871.4375 0 0 0 140.04691725 5.34970492 1866.36093723 1866.36093723 0 0 0 140.04691723-5.34970492c2.24727335-2.98310674 4.21612437-6.18497483 6.3937923-9.2178004 30.66633723 30.70611158 55.4360664 65.4791928 72.80769147 103.21549355 11.00766384 23.91457269 46.15860503 21.27949489 52.69160879-4.22606768a371.15156223 371.15156223 0 0 0 11.514792-91.99901164c0-69.36717486-19.13165746-133.82216804-51.75690182-187.92578088-3.42062944-5.66790279-4.76302748-12.26056868-3.76865837-18.80351632a462.20625001 462.20625001 0 0 0 5.36959269-69.943909c-0.00994388-166.08943902-87.32547796-311.81420293-218.6915546-394.09823051zM605.93803103 357.87693858a93.93749974 93.93749974 0 1 1-187.89594924 6.1e-7 93.93749974 93.93749974 0 0 1 187.89594924-6.1e-7z" p-id="5405" data-v-c6073ba8></path><path d="M429.50777625 765.63860547C429.50777625 803.39355007 466.44236686 1000.39046097 512.00932183 1000.39046097c45.56695499 0 82.4922232-197.00623328 82.5015456-234.7518555 0-37.75494459-36.9345906-68.35043303-82.4922232-68.34111062-45.57627738-0.00932239-82.52019037 30.59548842-82.51086798 68.34111062z" p-id="5406" data-v-c6073ba8></path></svg></div></div></div>
+    <script src="/ab.github.io/assets/js/app.28cebbe8.js" defer></script><script src="/ab.github.io/assets/js/7.2e324f51.js" defer></script><script src="/ab.github.io/assets/js/2.1c582c6d.js" defer></script><script src="/ab.github.io/assets/js/1.8da3d8c4.js" defer></script><script src="/ab.github.io/assets/js/123.2044ca5e.js" defer></script>
+  </body>
+</html>
